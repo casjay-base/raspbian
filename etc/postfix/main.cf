@@ -1,0 +1,16 @@
+smtpd_tls_dh1024_param_file = /etc/ssl/dhparam//dh1024.pem
+smtpd_tls_dh2048_param_file = /etc/ssl/dhparam//dh2048.pem
+smtpd_use_tls = yes
+smtpd_tls_auth_only = no
+smtpd_tls_key_file = /etc/ssl/CA/CasjaysDev/private/localhost.key
+smtpd_tls_cert_file = /etc/ssl/CA/CasjaysDev/certs/localhost.crt
+smtpd_tls_CAfile = /etc/ssl/CA/CasjaysDev/certs/ca.crt
+transport_maps = hash:/etc/postfix/transport
+canonical_maps = hash:/etc/postfix/canonical
+fax_destination_recipient_limit = 1
+relayhost = mail.casjay.in
+myhostname = MYHOSTNAME.casjay.in
+myorigin = MYHOSTNAME.casjay.in
+mydestination =
+
+# vim:ts=4:sw=4
