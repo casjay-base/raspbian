@@ -1,8 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-<?php include "https://static.casjay.net/casjays-header.php"; ?>
+<meta name="generator" content="CasjaysDev">
 <title>Site Configured</title>
+  <link rel="stylesheet" href="https://bootswatch.com/4/darkly/bootstrap.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+  <link rel="stylesheet" href="/default-css/casjaysdev.css">
+  <script src="/default-js/errorpages/isup.js"></script>
+  <script src="/default-js/errorpages/homepage.js"></script>
+  <script src="/default-js/errorpages/loaddomain.js"></script>
 </head>
 <body>
 <br><br>
@@ -19,17 +25,20 @@ site owner is working on it!  <br><br><br><br>
   <div class="c3">
 Server Admin you can now upload your site to  <br>
 <?php echo $_SERVER['DOCUMENT_ROOT']; ?>  <br><br><br>
-<?php echo "Server Name: ".$_SERVER['SERVER_NAME']."<BR>"; ?>
-<?php echo "IP Address: ".$_SERVER['SERVER_ADDR']."<BR>"; ?>  <br>
+<?php echo 'Server Name: ' . $_SERVER['SERVER_NAME'] . '<BR>'; ?>
+<?php echo 'IP Address: ' . $_SERVER['SERVER_ADDR'] . '<BR>'; ?>  <br>
 Linux OsVer: <?php echo shell_exec('cat /etc/debian_version'); ?>  <br>
-ConfigVer: <?php echo shell_exec('echo $(cat /etc/casjaysdev/updates/versions/raspbian.txt | tail -n 1)'); ?><br><br><br>
-Powered by a Debian Based Distro<br>
-<a href="https://debian.org"> <img border="0" alt="Debian/Ubuntu/Raspbian" src="https://static.casjay.net/default-icons/powered_by_debian.jpg"></a><br><br><br><br>
+ConfigVer: <?php echo shell_exec(
+    'cat /etc/casjaysdev/updates/versions/configs.txt'
+); ?>
+<br><br><br>
+Powered by a Debian based system<br>
+<a href="https://debian.com"> <img border="0" alt="Debian/Ubuntu/Mint" src="/default-icons/powered_by_debian.jpg"> </a><br><br><br><br>
   </div>
 
 <center>
 <!-- Begin Casjays Developments Footer -->
-<?php include "https://static.casjay.net/casjays-footer.php"; ?>
+<?php include 'https://static.casjay.net/casjays-footer.php'; ?>
 </center>
 <!-- End Casjays Developments Footer -->
 </body>
