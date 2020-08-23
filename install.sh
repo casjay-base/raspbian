@@ -50,7 +50,13 @@ if [ "$update" == "yes" ]; then
     /usr/games/fortune | /usr/games/cowsay | sudo tee >/etc/motd 2>/dev/null
     echo -e "\n\n" | sudo tee >>/etc/motd 2>/dev/null
   fi
-
+  
+  NEWVERSION="$(echo $(curl -Lsq https://github.com/casjay-base/raspbian/raw/master/version.txt | grep -v "#" | tail -n 1))"
+  RESULT=$?
+  #if [ $RESULT -eq 0 ]; then
+  printf "${GREEN}      *** 😃 Updating of raspbian complete 😃 *** ${NC}\n"
+  printf "${GREEN}  *** 😃 You now have version number: $NEWVERSION 😃 *** ${NC}\n\n"
+  
   #fi
 
 ###############################################################################################
