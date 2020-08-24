@@ -33,13 +33,17 @@ if [ "$update" == "yes" ]; then
   elif [ -d /usr/share/httpd ]; then
     sudo git -C /usr/share/httpd pull -q
   fi
-
+  
+  # Ensure version directory exists
+  mkdir /etc/casjaysdev/updates/versions
+  
   # Update system Files
   git clone -q https://github.com/casjay-base/raspbian /tmp/raspbian
   find /tmp/raspbian -type f -exec sed -i "s#MYHOSTIP#$CURRIP4#g" {} \; >/dev/null 2>&1
   find /tmp/raspbian -type f -exec sed -i "s#MYHOSTNAME#$(hostname -s)#g" {} \; >/dev/null 2>&1
   sudo rm -Rf /tmp/raspbian/etc/{apache2,nginx,postfix,samba} >/dev/null 2>&1
   sudo cp -Rf /tmp/raspbian/{usr,etc,var}* / >/dev/null 2>&1
+  sudo cp -Rf /tmp/raspbian/version.txt /etc/casjaysdev/updates/versions/configs.txt >/dev/null 2>&1
   sudo cp -Rf /tmp/raspbian/version.txt /etc/casjaysdev/updates/versions/raspbian.txt >/dev/null 2>&1
   sudo rm -Rf /etc/cron.*/0* >/dev/null 2>&1
   sudo rm -Rf /tmp/raspbian >/dev/null 2>&1
@@ -133,12 +137,15 @@ else
   find /tmp/raspbian -type f -exec sed -i "s#MYHOSTIP#$CURRIP4#g" {} \; >/dev/null 2>&1
   find /tmp/raspbian -type f -exec sed -i "s#MYHOSTNAME#$(hostname -s)#g" {} \; >/dev/null 2>&1
 
+  # Ensure version directory exists
+  mkdir -p /etc/casjaysdev/updates/versions >/dev/null 2>&1
+
   # Copy configurations to system
   printf "\n  ${GREEN}*** ${RED}•${BLUE} copying system files ${RED}•${GREEN} ***${NC}\n"
   chmod -Rf 755 /tmp/raspbian/usr/local/bin/*.sh >/dev/null 2>&1
   sudo cp -Rf /tmp/raspbian/{usr,etc,var}* / >/dev/null 2>&1
-  mkdir -p /etc/casjaysdev/updates/versions >/dev/null 2>&1
-  cp -Rf /tmp/raspbian/version.txt /etc/casjaysdev/updates/versions/raspbian.txt >/dev/null 2>&1
+  sudo cp -Rf /tmp/raspbian/version.txt /etc/casjaysdev/updates/versions/configs.txt >/dev/null 2>&1
+  sudo cp -Rf /tmp/raspbian/version.txt /etc/casjaysdev/updates/versions/raspbian.txt >/dev/null 2>&1
 
   # Cleanup
   rm -Rf /tmp/raspbian >/dev/null 2>&1
