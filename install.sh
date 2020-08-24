@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-PATH=/usr/bin:/usr/sbin:/usr/local/bin:/bin:/sbin:/usr/games
+PATH="/usr/bin:/usr/sbin:/usr/local/bin:/bin:/sbin:/usr/games:$HOME/.local/bin"
 
 #Setup Debian Package Manager
 export DEBIAN_FRONTEND=noninteractive
