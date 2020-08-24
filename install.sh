@@ -52,7 +52,7 @@ if [ "$update" == "yes" ]; then
     echo -e "\n\n" | sudo tee >>/etc/motd 2>/dev/null
   fi
   
-  NEWVERSION="$(echo $(curl -Lsq https://github.com/casjay-base/raspbian/raw/master/version.txt | grep -v "#" | tail -n 1))"
+  NEWVERSION="$(echo $(curl -LSs https://github.com/casjay-base/raspbian/raw/master/version.txt | grep -v "#" | tail -n 1))"
   RESULT=$?
   #if [ $RESULT -eq 0 ]; then
   printf "${GREEN}      *** 😃 Updating of raspbian complete 😃 *** ${NC}\n"
@@ -194,7 +194,7 @@ else
   sudo bash -c "$(curl -LSs https://github.com/casjay-dotfiles/scripts/raw/master/install.sh)"
 
   # Print installed version
-  NEWVERSION="$(echo $(curl -Lsq https://github.com/casjay-base/raspbian/raw/master/version.txt | grep -v "#" | tail -n 1))"
+  NEWVERSION="$(echo $(curl -LSs https://github.com/casjay-base/raspbian/raw/master/version.txt | grep -v "#" | tail -n 1))"
   RESULT=$?
   #if [ $RESULT -eq 0 ]; then
   printf "${GREEN}      *** 😃 installation of raspbian complete 😃 *** ${NC}\n"
