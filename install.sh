@@ -135,7 +135,7 @@ else
   sudo rm -Rf /etc/cron.*/0*
 
   # stop nginx httpd
-  sudo systemctl stop nginx apache2
+  sudo systemctl stop nginx apache2 >/dev/null 2>&1
 
   #Set ip and hostname
   CURRIP4="$(/sbin/ifconfig | grep -E "venet|inet" | grep -v "127.0.0." | grep 'inet' | grep -v inet6 | awk '{print $2}' | sed 's#addr:##g' | head -n1)"
