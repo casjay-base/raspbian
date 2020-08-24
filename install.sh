@@ -60,9 +60,10 @@ if [ "$update" == "yes" ]; then
   mkdir /etc/casjaysdev/updates/versions >/dev/null 2>&1
 
   # Update system Files
-  git clone -q https://github.com/casjay-base/raspbian /tmp/raspbian
-  find /tmp/raspbian -type f -exec sed -i "s#MYHOSTIP#$CURRIP4#g" {} \; >/dev/null 2>&1
-  find /tmp/raspbian -type f -exec sed -i "s#MYHOSTNAME#$(hostname -s)#g" {} \; >/dev/null 2>&1
+  sudo git clone -q https://github.com/casjay-base/raspbian /tmp/raspbian
+  sudo find /tmp/raspbian -type f -exec sed -i "s#MYHOSTIP#$CURRIP4#g" {} \; >/dev/null 2>&1
+  sudo find /tmp/raspbian -type f -exec sed -i "s#MYHOSTNAME#$(hostname -s)#g" {} \; >/dev/null 2>&1
+  sudo chmod -Rf 755 /tmp/raspbian/usr/local/bin/*
   sudo rm -Rf /tmp/raspbian/etc/{apache2,nginx,postfix,samba} >/dev/null 2>&1
   sudo cp -Rf /tmp/raspbian/{usr,etc,var}* / >/dev/null 2>&1
   sudo cp -Rf /tmp/raspbian/version.txt /etc/casjaysdev/updates/versions/configs.txt >/dev/null 2>&1
