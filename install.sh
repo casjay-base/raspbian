@@ -60,7 +60,7 @@ if [ "$update" == "yes" ]; then
   mkdir /etc/casjaysdev/updates/versions >/dev/null 2>&1
 
   # Update system Files
-  sudo git clone -q https://github.com/casjay-base/raspbian /tmp/raspbian
+  sudo git clone -q https://github.com/casjay-base/raspbian /tmp/raspbian >/dev/null 2>&1
   sudo find /tmp/raspbian -type f -exec sed -i "s#MYHOSTIP#$CURRIP4#g" {} \; >/dev/null 2>&1
   sudo find /tmp/raspbian -type f -exec sed -i "s#MYHOSTNAME#$(hostname -s)#g" {} \; >/dev/null 2>&1
   sudo chmod -Rf 755 /tmp/raspbian/usr/local/bin/*
@@ -78,6 +78,11 @@ if [ "$update" == "yes" ]; then
     echo -e "\n\n" | sudo tee >>/etc/motd 2>/dev/null
   fi
 
+  # Update the scripts
+  sudo bash -c "$(curl -LSs https://github.com/dfmgr/installer/raw/master/install.sh)" >/dev/null 2>&1 && \
+  dotfiles admin installer  >/dev/null 2>&1
+
+  # Done
   NEWVERSION="$(echo $(curl -LSs https://github.com/casjay-base/raspbian/raw/master/version.txt | grep -v "#" | head -n 1))"
   RESULT=$?
   #if [ $RESULT -eq 0 ]; then
@@ -193,13 +198,10 @@ else
     echo -e "\n\n" | sudo tee >>/etc/motd 2>/dev/null
   fi
 
+  # Update the scripts
   printf "\n  ${GREEN}*** ${RED}•${BLUE} setup scripts ${RED}•${GREEN} ***${NC}\n"
-  sudo bash -c "$(curl -LSs https://github.com/casjay-dotfiles/scripts/raw/master/install.sh)"
-
-  printf "\n  ${GREEN}*** ${RED}•${BLUE} setup dotfiles ${RED}•${GREEN} ***${NC}\n"
-  for config in bash dircolors fish git htop tig tmux vifm vim zsh; do
-    bash -c "$(curl -LSs https://github.com/casjay-dotfiles/$config/raw/master/install.sh)"
-  done
+  sudo bash -c "$(curl -LSs https://github.com/dfmgr/installer/raw/master/install.sh)" >/dev/null 2>&1 && \
+  dotfiles admin installer
 
   # Print installed version
   NEWVERSION="$(echo $(curl -LSs https://github.com/casjay-base/raspbian/raw/master/version.txt | grep -v "#" | head -n 1))"
