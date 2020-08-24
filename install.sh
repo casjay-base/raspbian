@@ -27,13 +27,10 @@ if [ "$update" == "yes" ]; then
   #if [ "$IFISONLINE" -ne "0" ]; then
   #exit 1
   #else
-  if [ ! -d /usr/share/httpd/.git ]; then
-    sudo rm -Rf /usr/share/httpd
-    sudo git clone -q https://github.com/casjay-templates/default-web-assets /usr/share/httpd
-  elif [ -d /usr/share/httpd ]; then
-    sudo git -C /usr/share/httpd pull -q
-  fi
-  
+
+  # Default Web Assets
+  sudo bash -c "$(curl -LSs https://github.com/casjay-templates/default-web-assets/raw/master/setup.sh)"
+
   # Ensure version directory exists
   mkdir /etc/casjaysdev/updates/versions
   
@@ -156,13 +153,7 @@ else
   sudo systemctl enable --now postfix >/dev/null 2>&1
 
   # Setup apache2
-  if [ -d /usr/share/httpd/.git ]; then
-    cd /usr/share/httpd && git pull -q
-    cd ~
-  else
-    sudo rm -Rf /usr/share/httpd
-    sudo git clone -q https://github.com/casjay-templates/default-web-assets /usr/share/httpd
-  fi
+  sudo bash -c "$(curl -LSs https://github.com/casjay-templates/default-web-assets/raw/master/setup.sh)"
 
   sudo a2enmod proxy_fcgi setenvif access_compat fcgid expires userdir asis autoindex brotli cgid cgi charset_lite data deflate dir env geoip headers http2 lbmethod_bybusyness lua proxy proxy_http2 request rewrite session_dbd speling ssl status vhost_alias xml2enc >/dev/null 2>&1
   a2ensite default-ssl.conf >/dev/null 2>&1
