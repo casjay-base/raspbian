@@ -32,7 +32,7 @@ if [ "$update" == "yes" ]; then
   sudo bash -c "$(curl -LSs https://github.com/casjay-templates/default-web-assets/raw/master/setup.sh)"
 
   # Ensure version directory exists
-  mkdir /etc/casjaysdev/updates/versions
+  mkdir /etc/casjaysdev/updates/versions >/dev/null 2>&1
   
   # Update system Files
   git clone -q https://github.com/casjay-base/raspbian /tmp/raspbian
