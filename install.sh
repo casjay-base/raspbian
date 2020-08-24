@@ -47,6 +47,8 @@ printf "${NC}\n\n"
 ###############################################################################################
 #update only
 if [ "$update" == "yes" ]; then
+
+  printf "${GREEN} *** ${RED}•${GREEN} Running the updater, this may take a few minutes ${RED}•${GREEN} ***${NC}\n"
   #    IFISONLINE=$( timeout 0.2 ping -c1 8.8.8.8 &>/dev/null ; echo $? )
   CURRIP4="$(/sbin/ifconfig | grep -E "venet|inet" | grep -v "127.0.0." | grep 'inet' | grep -v inet6 | awk '{print $2}' | sed 's#addr:##g' | head -n1)"
   #if [ "$IFISONLINE" -ne "0" ]; then
