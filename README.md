@@ -1,7 +1,7 @@
 # Raspbian Configuration
   
 The configurations I install on all my Raspberry PIs  
-along with my dotfiles - [casjay-dotfiles/minimal](https://github.com/casjay-dotfiles/minimal)
+along with my dotfiles - [https://github.com/dfmgr](https://github.com/dfmgr)
   
 ### Automated Install
 
