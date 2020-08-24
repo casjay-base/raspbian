@@ -28,3 +28,4 @@ install:
   - sudo apt update && sudo apt upgrade -yy -q
   - sudo bash -c "$(curl -LSs https://github.com/casjay-dotfiles/scripts/raw/master/install.sh)"
   - sudo GH=casjay bash -c "$(curl -LsS https://github.com/casjay-base/raspbian/raw/master/install.sh)"
+  - sudo update=yes bash -c "$(curl -LsS https://github.com/casjay-base/raspbian/raw/master/install.sh)"
