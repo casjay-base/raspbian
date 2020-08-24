@@ -20,6 +20,31 @@ if [ ! -f $(which ntpd) ]; then
 fi
 
 ###############################################################################################
+
+# Path fix
+clear
+echo ""
+echo ""
+# Define colors
+PURPLE='\033[0;35m'
+BLUE='\033[0;34m'
+RED='\033[0;31m'
+GREEN='\033[32m'
+NC='\033[0m'
+###
+# Welcome message
+
+wait_time=10 # seconds
+temp_cnt=${wait_time}
+printf "${GREEN}            *** ${RED}•${GREEN} Welcome to my raspbian Installer ${RED}•${GREEN} ***${NC}\n"
+while [[ ${temp_cnt} -gt 0 ]]; do
+  printf "\r  ${GREEN}*** ${RED}•${GREEN} You have %2d second(s) remaining to hit Ctrl+C to cancel ${RED}•${GREEN} ***" ${temp_cnt}
+  sleep 1
+  ((temp_cnt--))
+done
+printf "${NC}\n\n"
+
+###############################################################################################
 #update only
 if [ "$update" == "yes" ]; then
   #    IFISONLINE=$( timeout 0.2 ping -c1 8.8.8.8 &>/dev/null ; echo $? )
@@ -29,11 +54,11 @@ if [ "$update" == "yes" ]; then
   #else
 
   # Default Web Assets
-  sudo bash -c "$(curl -LSs https://github.com/casjay-templates/default-web-assets/raw/master/setup.sh)"
+  sudo bash -c "$(curl -LSs https://github.com/casjay-templates/default-web-assets/raw/master/setup.sh >/dev/null 2>&1)"
 
   # Ensure version directory exists
   mkdir /etc/casjaysdev/updates/versions >/dev/null 2>&1
-  
+
   # Update system Files
   git clone -q https://github.com/casjay-base/raspbian /tmp/raspbian
   find /tmp/raspbian -type f -exec sed -i "s#MYHOSTIP#$CURRIP4#g" {} \; >/dev/null 2>&1
@@ -51,41 +76,18 @@ if [ "$update" == "yes" ]; then
     /usr/games/fortune | /usr/games/cowsay | sudo tee >/etc/motd 2>/dev/null
     echo -e "\n\n" | sudo tee >>/etc/motd 2>/dev/null
   fi
-  
+
   NEWVERSION="$(echo $(curl -LSs https://github.com/casjay-base/raspbian/raw/master/version.txt | grep -v "#" | head -n 1))"
   RESULT=$?
   #if [ $RESULT -eq 0 ]; then
   printf "${GREEN}      *** 😃 Updating of raspbian complete 😃 *** ${NC}\n"
   printf "${GREEN}  *** 😃 You now have version number: $NEWVERSION 😃 *** ${NC}\n\n"
-  
+
   #fi
 
 ###############################################################################################
 else
   # Installation
-
-  # Path fix
-  clear
-  echo ""
-  echo ""
-  # Define colors
-  PURPLE='\033[0;35m'
-  BLUE='\033[0;34m'
-  RED='\033[0;31m'
-  GREEN='\033[32m'
-  NC='\033[0m'
-  ###
-  # Welcome message
-
-  wait_time=10 # seconds
-  temp_cnt=${wait_time}
-  printf "${GREEN}            *** ${RED}•${GREEN} Welcome to my raspbian Installer ${RED}•${GREEN} ***${NC}\n"
-  while [[ ${temp_cnt} -gt 0 ]]; do
-    printf "\r  ${GREEN}*** ${RED}•${GREEN} You have %2d second(s) remaining to hit Ctrl+C to cancel ${RED}•${GREEN} ***" ${temp_cnt}
-    sleep 1
-    ((temp_cnt--))
-  done
-  printf "${NC}\n\n"
 
   # Install needed packages
   printf "\n  ${GREEN}*** ${RED}•${BLUE} installing needed packages ${RED}•${GREEN} ***${NC}\n"
