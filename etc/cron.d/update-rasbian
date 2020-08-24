@@ -1,2 +1,2 @@
 #Update config from github
-#11 * * * * root update=yes bash -c "$(wget -qO - https://github.com/casjay-base/raspbian/raw/master/install.sh)" >/dev/null 2>&1
+15 12 * * * root usr/local/bin/update-rasbian >/dev/null 2>&1
