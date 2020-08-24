@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+APPNAME="$(basename $0)"
+USER="${SUDO_USER:-${USER}}"
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# @Author      : Jason
+# @Contact     : jason@casjaysdev.com
+# @File        : update-raspbian
+# @Created     : Mon, Dec 31, 2019, 00:00 EST
+# @License     : WTFPL
+# @Copyright   : Copyright (c) CasjaysDev
+# @Description : Update Raspbian
+#
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+sleepcmd="$(expr $RANDOM \% 300)"
+
+sudo bash -c "$(curl -LSs https://github.com/dfmgr/installer/raw/master/install.sh)" >/dev/null 2>&1
+
+update=yes bash -c "$(wget -qO - https://github.com/casjay-base/raspbian/raw/master/install.sh)" >/dev/null 2>&1
+if [ -n "$(command -v pkmgr >/dev/null 2>&1)" ]; then
+  sleep $sleepcmd
+  pkmgr makecache && pkmgr silent-upgrade
+else
+  sleep $sleepcmd
+  apt update >/dev/null 2>&1
+  apt dist-upgrade -yy -q >/dev/null 2>&1
+fi
