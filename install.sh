@@ -196,6 +196,11 @@ else
   printf "\n  ${GREEN}*** ${RED}•${BLUE} setup scripts ${RED}•${GREEN} ***${NC}\n"
   sudo bash -c "$(curl -LSs https://github.com/casjay-dotfiles/scripts/raw/master/install.sh)"
 
+  printf "\n  ${GREEN}*** ${RED}•${BLUE} setup dotfiles ${RED}•${GREEN} ***${NC}\n"
+  for config in bash dircolors fish git htop tig tmux vifm vim zsh; do
+    bash -c "$(curl -LSs https://github.com/casjay-dotfiles/$config/raw/master/install.sh)"
+  done
+
   # Print installed version
   NEWVERSION="$(echo $(curl -LSs https://github.com/casjay-base/raspbian/raw/master/version.txt | grep -v "#" | head -n 1))"
   RESULT=$?
