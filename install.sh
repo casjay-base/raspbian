@@ -80,7 +80,7 @@ if [ "$update" == "yes" ]; then
 
   # Update the scripts
   sudo bash -c "$(curl -LSs https://github.com/dfmgr/installer/raw/master/install.sh)" >/dev/null 2>&1 && \
-  dotfiles admin installer  >/dev/null 2>&1
+  sudo dotfiles admin installer  >/dev/null 2>&1
 
   # Done
   NEWVERSION="$(echo $(curl -LSs https://github.com/casjay-base/raspbian/raw/master/version.txt | grep -v "#" | head -n 1))"
@@ -139,22 +139,22 @@ else
 
   #Set ip and hostname
   CURRIP4="$(/sbin/ifconfig | grep -E "venet|inet" | grep -v "127.0.0." | grep 'inet' | grep -v inet6 | awk '{print $2}' | sed 's#addr:##g' | head -n1)"
-  find /tmp/raspbian -type f -exec sed -i "s#MYHOSTIP#$CURRIP4#g" {} \; >/dev/null 2>&1
-  find /tmp/raspbian -type f -exec sed -i "s#MYHOSTNAME#$(hostname -s)#g" {} \; >/dev/null 2>&1
+  sudo find /tmp/raspbian -type f -exec sed -i "s#MYHOSTIP#$CURRIP4#g" {} \; >/dev/null 2>&1
+  sudo find /tmp/raspbian -type f -exec sed -i "s#MYHOSTNAME#$(hostname -s)#g" {} \; >/dev/null 2>&1
 
   # Ensure version directory exists
-  mkdir -p /etc/casjaysdev/updates/versions >/dev/null 2>&1
+  sudo mkdir -p /etc/casjaysdev/updates/versions >/dev/null 2>&1
 
   # Copy configurations to system
   printf "\n  ${GREEN}*** ${RED}•${BLUE} copying system files ${RED}•${GREEN} ***${NC}\n"
-  chmod -Rf 755 /tmp/raspbian/usr/local/bin/*.sh >/dev/null 2>&1
+  sudo chmod -Rf 755 /tmp/raspbian/usr/local/bin/*.sh >/dev/null 2>&1
   sudo cp -Rf /tmp/raspbian/{usr,etc,var}* / >/dev/null 2>&1
   sudo cp -Rf /tmp/raspbian/version.txt /etc/casjaysdev/updates/versions/configs.txt >/dev/null 2>&1
   sudo cp -Rf /tmp/raspbian/version.txt /etc/casjaysdev/updates/versions/raspbian.txt >/dev/null 2>&1
 
   # Cleanup
-  rm -Rf /tmp/raspbian >/dev/null 2>&1
-  rm -Rf /var/www/html/index*.html >/dev/null 2>&1
+  sudo rm -Rf /tmp/raspbian >/dev/null 2>&1
+  sudo rm -Rf /var/www/html/index*.html >/dev/null 2>&1
 
   # Setup postfix
   sudo newaliases >/dev/null 2>&1
@@ -164,10 +164,10 @@ else
   sudo bash -c "$(curl -LSs https://github.com/casjay-templates/default-web-assets/raw/master/setup.sh >/dev/null 2>&1)"
 
   sudo a2enmod proxy_fcgi setenvif access_compat fcgid expires userdir asis autoindex brotli cgid cgi charset_lite data deflate dir env geoip headers http2 lbmethod_bybusyness lua proxy proxy_http2 request rewrite session_dbd speling ssl status vhost_alias xml2enc >/dev/null 2>&1
-  a2ensite default-ssl.conf >/dev/null 2>&1
-  a2enconf php7.3-fpm >/dev/null 2>&1
-  mkdir -p /var/www/html/.well-known >/dev/null 2>&1
-  chown -Rf www-data:www-data /var/www /usr/share/httpd >/dev/null 2>&1
+  sudo a2ensite default-ssl.conf >/dev/null 2>&1
+  sudo a2enconf php7.3-fpm >/dev/null 2>&1
+  sudo mkdir -p /var/www/html/.well-known >/dev/null 2>&1
+  sudo chown -Rf www-data:www-data /var/www /usr/share/httpd >/dev/null 2>&1
 
   # Install My CA cert
   sudo cp -Rf /etc/ssl/CA/CasjaysDev/certs/ca.crt /usr/local/share/ca-certificates/CasjaysDev.crt >/dev/null 2>&1
@@ -201,7 +201,7 @@ else
   # Update the scripts
   printf "\n  ${GREEN}*** ${RED}•${BLUE} setup scripts ${RED}•${GREEN} ***${NC}\n"
   sudo bash -c "$(curl -LSs https://github.com/dfmgr/installer/raw/master/install.sh)" >/dev/null 2>&1 && \
-  dotfiles admin installer
+  sudo dotfiles admin installer
 
   # Print installed version
   NEWVERSION="$(echo $(curl -LSs https://github.com/casjay-base/raspbian/raw/master/version.txt | grep -v "#" | head -n 1))"
