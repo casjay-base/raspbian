@@ -2,23 +2,6 @@
 
 PATH="/usr/bin:/usr/sbin:/usr/local/bin:/bin:/sbin:/usr/games:$HOME/.local/bin"
 
-#Setup Debian Package Manager
-export DEBIAN_FRONTEND=noninteractive
-
-# $APT $APTOPTS $APTINST
-
-APT="DEBIAN_FRONTEND=noninteractive apt-get"
-APTOPTS="-o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold""
-APTINST="--ignore-missing -yy -qq --allow-unauthenticated --assume-yes"
-
-###############################################################################################
-if [ ! -f $(which ntpd) ]; then
-  sudo $APT $APTOPTS $APTINST install ntp ntpdate </dev/null >/dev/null 2>&1
-  sudo systemctl stop ntp >/dev/null 2>&1
-  sudo ntpdate ntp.casjay.in >/dev/null 2>&1
-  sudo systemctl enable --now ntp >/dev/null 2>&1
-fi
-
 ###############################################################################################
 
 # Path fix
@@ -43,6 +26,29 @@ while [[ ${temp_cnt} -gt 0 ]]; do
   ((temp_cnt--))
 done
 printf "${NC}\n\n"
+
+###############################################################################################
+
+#Setup Debian Package Manager
+export DEBIAN_FRONTEND=noninteractive
+
+# $APT $APTOPTS $APTINST
+
+APT="DEBIAN_FRONTEND=noninteractive apt-get"
+APTOPTS="-o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold""
+APTINST="--ignore-missing -yy -qq --allow-unauthenticated --assume-yes"
+
+###############################################################################################
+if [ ! -f $(which ntpd) ]; then
+  sudo $APT $APTOPTS $APTINST install ntp ntpdate </dev/null >/dev/null 2>&1
+  sudo systemctl stop ntp >/dev/null 2>&1
+  sudo ntpdate ntp.casjay.in >/dev/null 2>&1
+  sudo systemctl enable --now ntp >/dev/null 2>&1
+fi
+
+###############################################################################################
+
+sudo update-locale LANG=en_US.UTF-8 en_GB.UTF-8 || sudo localectl set-locale LANG=en_US.UTF-8
 
 ###############################################################################################
 #update only
