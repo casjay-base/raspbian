@@ -52,54 +52,53 @@ sudo update-locale LANG=en_US.UTF-8 en_GB.UTF-8 || sudo localectl set-locale LAN
 sudo update-locale
 
 ###############################################################################################
-#update only
 if [ "$update" == "yes" ]; then
 
   printf "${GREEN} *** ${RED}•${GREEN} Running the updater, this may take a few minutes ${RED}•${GREEN} ***${NC}\n"
-  IFISONLINE=$( timeout 0.2 ping -c1 8.8.8.8 &>/dev/null ; echo $? )
+  IFISONLINE=$( timeout 0.2 ping -c1 8.8.8.8 &>/dev/null; echo $? )
   CURRIP4="$(/sbin/ifconfig | grep -E "venet|inet" | grep -v "127.0.0." | grep 'inet' | grep -v inet6 | awk '{print $2}' | sed 's#addr:##g' | head -n1)"
   if [ "$IFISONLINE" -ne "0" ]; then
     exit 1
   else
 
-  # Default Web Assets
-  sudo bash -c "$(curl -LSs https://github.com/casjay-templates/default-web-assets/raw/master/setup.sh >/dev/null 2>&1)"
+    # Default Web Assets
+    sudo bash -c "$(curl -LSs https://github.com/casjay-templates/default-web-assets/raw/master/setup.sh >/dev/null 2>&1)"
 
-  # Ensure version directory exists
-  mkdir /etc/casjaysdev/updates/versions >/dev/null 2>&1
-  mkdir -p /mnt/backups/Systems >/dev/null 2>&1
+    # Ensure version directory exists
+    mkdir /etc/casjaysdev/updates/versions >/dev/null 2>&1
+    mkdir -p /mnt/backups/Systems >/dev/null 2>&1
 
-  # Update system Files
-  sudo git clone -q https://github.com/casjay-base/raspbian /tmp/raspbian >/dev/null 2>&1
-  sudo find /tmp/raspbian -type f -exec sed -i "s#MYHOSTIP#$CURRIP4#g" {} \; >/dev/null 2>&1
-  sudo find /tmp/raspbian -type f -exec sed -i "s#MYHOSTNAME#$(hostname -s)#g" {} \; >/dev/null 2>&1
-  sudo chmod -Rf 755 /tmp/raspbian/usr/local/bin/*
-  sudo rm -Rf /tmp/raspbian/etc/{apache2,nginx,postfix,samba} >/dev/null 2>&1
-  sudo cp -Rf /tmp/raspbian/{usr,etc,var}* / >/dev/null 2>&1
-  sudo cp -Rf /tmp/raspbian/version.txt /etc/casjaysdev/updates/versions/configs.txt >/dev/null 2>&1
-  sudo cp -Rf /tmp/raspbian/version.txt /etc/casjaysdev/updates/versions/raspbian.txt >/dev/null 2>&1
-  sudo rm -Rf /etc/cron.*/0* >/dev/null 2>&1
-  sudo rm -Rf /tmp/raspbian >/dev/null 2>&1
+    # Update system Files
+    sudo git clone -q https://github.com/casjay-base/raspbian /tmp/raspbian >/dev/null 2>&1
+    sudo find /tmp/raspbian -type f -exec sed -i "s#MYHOSTIP#$CURRIP4#g" {} \; >/dev/null 2>&1
+    sudo find /tmp/raspbian -type f -exec sed -i "s#MYHOSTNAME#$(hostname -s)#g" {} \; >/dev/null 2>&1
+    sudo chmod -Rf 755 /tmp/raspbian/usr/local/bin/*
+    sudo rm -Rf /tmp/raspbian/etc/{apache2,nginx,postfix,samba} >/dev/null 2>&1
+    sudo cp -Rf /tmp/raspbian/{usr,etc,var}* / >/dev/null 2>&1
+    sudo cp -Rf /tmp/raspbian/version.txt /etc/casjaysdev/updates/versions/configs.txt >/dev/null 2>&1
+    sudo cp -Rf /tmp/raspbian/version.txt /etc/casjaysdev/updates/versions/raspbian.txt >/dev/null 2>&1
+    sudo rm -Rf /etc/cron.*/0* >/dev/null 2>&1
+    sudo rm -Rf /tmp/raspbian >/dev/null 2>&1
 
-  # Make motd
-  sudo cp -Rf /etc/casjaysdev/messages/legal.txt /etc/issue
-  if [ -f /usr/games/fortune ] && [ -f /usr/games/cowsay ]; then
-    /usr/games/fortune | /usr/games/cowsay | sudo tee >/etc/motd 2>/dev/null
-    echo -e "\n\n" | sudo tee >>/etc/motd 2>/dev/null
+    # Make motd
+    sudo cp -Rf /etc/casjaysdev/messages/legal.txt /etc/issue
+    if [ -f /usr/games/fortune ] && [ -f /usr/games/cowsay ]; then
+      /usr/games/fortune | /usr/games/cowsay | sudo tee >/etc/motd 2>/dev/null
+      echo -e "\n\n" | sudo tee >>/etc/motd 2>/dev/null
+    fi
+
+    # Update the scripts
+    sudo bash -c "$(curl -LSs https://github.com/dfmgr/installer/raw/master/install.sh)" >/dev/null 2>&1 && \
+    sudo dotfiles admin installer >/dev/null 2>&1
+
+    # Done
+    NEWVERSION="$(echo $(curl -LSs https://github.com/casjay-base/raspbian/raw/master/version.txt | grep -v "#" | head -n 1))"
+    RESULT=$?
+    #if [ $RESULT -eq 0 ]; then
+    printf "${GREEN}      *** 😃 Updating of raspbian complete 😃 *** ${NC}\n"
+    printf "${GREEN}  *** 😃 You now have version number: $NEWVERSION 😃 *** ${NC}\n\n"
+
   fi
-
-  # Update the scripts
-  sudo bash -c "$(curl -LSs https://github.com/dfmgr/installer/raw/master/install.sh)" >/dev/null 2>&1 && \
-  sudo dotfiles admin installer  >/dev/null 2>&1
-
-  # Done
-  NEWVERSION="$(echo $(curl -LSs https://github.com/casjay-base/raspbian/raw/master/version.txt | grep -v "#" | head -n 1))"
-  RESULT=$?
-  #if [ $RESULT -eq 0 ]; then
-  printf "${GREEN}      *** 😃 Updating of raspbian complete 😃 *** ${NC}\n"
-  printf "${GREEN}  *** 😃 You now have version number: $NEWVERSION 😃 *** ${NC}\n\n"
-
-  #fi
 
 ###############################################################################################
 else
