@@ -56,17 +56,18 @@ sudo update-locale
 if [ "$update" == "yes" ]; then
 
   printf "${GREEN} *** ${RED}•${GREEN} Running the updater, this may take a few minutes ${RED}•${GREEN} ***${NC}\n"
-  #    IFISONLINE=$( timeout 0.2 ping -c1 8.8.8.8 &>/dev/null ; echo $? )
+  IFISONLINE=$( timeout 0.2 ping -c1 8.8.8.8 &>/dev/null ; echo $? )
   CURRIP4="$(/sbin/ifconfig | grep -E "venet|inet" | grep -v "127.0.0." | grep 'inet' | grep -v inet6 | awk '{print $2}' | sed 's#addr:##g' | head -n1)"
-  #if [ "$IFISONLINE" -ne "0" ]; then
-  #exit 1
-  #else
+  if [ "$IFISONLINE" -ne "0" ]; then
+    exit 1
+  else
 
   # Default Web Assets
   sudo bash -c "$(curl -LSs https://github.com/casjay-templates/default-web-assets/raw/master/setup.sh >/dev/null 2>&1)"
 
   # Ensure version directory exists
   mkdir /etc/casjaysdev/updates/versions >/dev/null 2>&1
+  mkdir -p /mnt/backups/Systems >/dev/null 2>&1
 
   # Update system Files
   sudo git clone -q https://github.com/casjay-base/raspbian /tmp/raspbian >/dev/null 2>&1
@@ -153,6 +154,7 @@ else
 
   # Ensure version directory exists
   sudo mkdir -p /etc/casjaysdev/updates/versions >/dev/null 2>&1
+  sudo mkdir -p /mnt/backups/Systems >/dev/null 2>&1
 
   # Copy configurations to system
   printf "\n  ${GREEN}*** ${RED}•${BLUE} copying system files ${RED}•${GREEN} ***${NC}\n"
