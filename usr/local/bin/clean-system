@@ -1,11 +1,30 @@
-#!/bin/sh
-SYSLOGDIR=/var/log
+#!/usr/bin/env bash
+
+APPNAME="clean-system"
+USER="${SUDO_USER:-${USER}}"
+HOME="${USER_HOME:-${HOME}}"
+PATH="/usr/games:$PATH"
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# @Author      : Jason
+# @Contact     : jason@casjaysdev.com
+# @File        : clean-system
+# @Created     : Mon, Dec 31, 2019, 00:00 EST
+# @License     : WTFPL
+# @Copyright   : Copyright (c) CasjaysDev
+# @Description : Clean up old logs
+#
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 if [ -f /etc/cron.daily/logrotate ]; then rm -f /etc/cron.daily/logrotate; fi
 
 logrotate -f /etc/logrotate.conf >/dev/null 2>&1
 
-/bin/rm -Rf $SYSLOGDIR/bandwidth >/dev/null
-/bin/rm -Rf $SYSLOGDIR/*.{0,1,2,3,4,5,6,7,8,9} $SYSLOGDIR/*/*.{0,1,2,3,4,5,6,7,8,9} $SYSLOGDIR/*/*/*.{0,1,2,3,4,5,6,7,8,9} >/dev/null
-/bin/rm -Rf $SYSLOGDIR/*.gz $SYSLOGDIR/*/*.gz $SYSLOGDIR/*/*/*.gz >/dev/null
-/bin/rm -Rf $SYSLOGDIR/*.old $SYSLOGDIR/*/*.old $SYSLOGDIR/*/*/*.old >/dev/null
+/bin/rm -Rf /var/log/bandwidth >/dev/null
+/bin/rm -Rf /var/log/*.{0,1,2,3,4,5,6,7,8,9} /var/log/*/*.{0,1,2,3,4,5,6,7,8,9} /var/log/*/*/*.{0,1,2,3,4,5,6,7,8,9} >/dev/null
+/bin/rm -Rf /var/log/*.gz /var/log/*/*.gz /var/log/*/*/*.gz >/dev/null
+/bin/rm -Rf /var/log/*.old /var/log/*/*.old /var/log/*/*/*.old >/dev/null
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+exit $?
