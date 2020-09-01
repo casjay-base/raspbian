@@ -213,6 +213,10 @@ else
     printf "\n\n" | sudo tee >> /etc/motd
     printf "\n\n" | sudo tee >> /etc/motd
   fi
+  
+  if [ -f "/etc/vim/vimrc.local" ]; then
+    ln_sf "/etc/vim/vimrc.local" "$HOME/.vimrc"
+  fi
 
   # Update the scripts
   printf "\n  ${GREEN}*** ${RED}•${BLUE} setup scripts ${RED}•${GREEN} ***${NC}\n"
