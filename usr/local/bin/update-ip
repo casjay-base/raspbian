@@ -9,7 +9,7 @@ CURRIP4="$(/sbin/ifconfig $NETDEV | grep -E "venet|inet" | grep -v "127.0.0." | 
 
 if [ -f "/etc/casjaysdev/messages/legal.txt" ]; then
   sed -i "s#MY IP Adress is.*#MY IP Adress is: $CURRIP4#g" /etc/casjaysdev/messages/legal.txt
-  cp -Rf /etc/casjaysdev/messages/legal.txt /etc/issue
-  /etc/issue && /usr/games/fortune | /usr/games/cowsay > /etc/motd 
-  printf "\n\n" | tee >> /etc/motd
+  sed -i "s#MY IP Adress is.*#MY IP Adress is: $CURRIP4#g" /etc/issue /etc/issue.net
+  sed -i "s#MY IP Adress is.*#MY IP Adress is: $CURRIP4#g" /etc/motd.net
+  sed -i "s#MY IP Adress is.*#MY IP Adress is: $CURRIP4#g" /etc/motd
 fi
