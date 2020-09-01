@@ -1,5 +1,21 @@
 #!/usr/bin/env bash
 
+APPNAME="update-ip"
+USER="${SUDO_USER:-${USER}}"
+HOME="${USER_HOME:-${HOME}}"
+PATH="/usr/games:$PATH"
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# @Author      : Jason
+# @Contact     : jason@casjaysdev.com
+# @File        : clean-system
+# @Created     : Mon, Dec 31, 2019, 00:00 EST
+# @License     : WTFPL
+# @Copyright   : Copyright (c) CasjaysDev
+# @Description : Updates the ip address for motd and issue files
+#
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 HOST=$(hostname -f)
 HOSTNAME=$(hostname -f)
 HOSTSHORT=$(hostname -s)
@@ -26,3 +42,7 @@ fi
 if [ -f "/etc/motd.net" ]; then
   sed -i "s#MY IP Adress is.*#MY IP Adress is: $CURRIP4#g" /etc/motd.net 2>/dev/null
 fi
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+exit $?
