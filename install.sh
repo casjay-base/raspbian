@@ -46,6 +46,7 @@ if [ ! -f $(which ntpd) ]; then
   sudo systemctl enable --now ntp >/dev/null 2>&1
 fi
 
+###############################################################################################
 
 NETDEV="$(ip route | grep default | sed -e "s/^.*dev.//" -e "s/.proto.*//")"
 CURRIP4="$(/sbin/ifconfig $NETDEV | grep -E "venet|inet" | grep -v "127.0.0." | grep 'inet' | grep -v inet6 | awk '{print $2}' | sed 's#addr:##g' | head -n1 | awk '{print $1}')"
