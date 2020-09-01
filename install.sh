@@ -65,7 +65,7 @@ if [ "$update" == "yes" ]; then
     sudo bash -c "$(curl -LSs https://github.com/casjay-templates/default-web-assets/raw/master/setup.sh >/dev/null 2>&1)"
 
     # Ensure version directory exists
-    mkdir /etc/casjaysdev/updates/versions >/dev/null 2>&1
+    mkdir -p /etc/casjaysdev/updates/versions >/dev/null 2>&1
     mkdir -p /mnt/backups/Systems >/dev/null 2>&1
 
     # Update system Files
