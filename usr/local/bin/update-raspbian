@@ -3,6 +3,7 @@
 APPNAME="update-raspbian"
 USER="${SUDO_USER:-${USER}}"
 HOME="${USER_HOME:-${HOME}}"
+PATH="/usr/games:$PATH"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # @Author      : Jason
@@ -11,7 +12,7 @@ HOME="${USER_HOME:-${HOME}}"
 # @Created     : Mon, Dec 31, 2019, 00:00 EST
 # @License     : WTFPL
 # @Copyright   : Copyright (c) CasjaysDev
-# @Description : Update Raspbian
+# @Description : Update Raspbian configurations and OS
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
