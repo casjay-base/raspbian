@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 cp -Rf /etc/casjaysdev/messages/legal.txt /etc/issue
-printf "\n\n" | tee > /etc/motd
-cat /etc/issue && /usr/games/fortune | /usr/games/cowsay >> /etc/motd 
-printf "\n\n" | tee >> /etc/motd
+printf "\n\n" | sudo tee > /etc/motd
+cat /etc/issue | sudo tee >> /etc/motd
+/usr/games/fortune | /usr/games/cowsay | sudo tee >> /etc/motd 
+printf "\n\n" | sudo tee >> /etc/motd
