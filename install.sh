@@ -89,9 +89,9 @@ if [ "$update" == "yes" ]; then
 
     # Make motd
     sudo cp -Rf /etc/casjaysdev/messages/legal.txt /etc/issue
-    if [ -f /usr/games/fortune ] && [ -f /usr/games/cowsay ]; then
+    if [ -n "$(command -v fortune 2>/dev/null)" ] && [ -n "$(command -v cowsay 2>/dev/null)" ]; then
       printf "\n\n" | sudo tee > /etc/motd
-      /usr/games/fortune | /usr/games/cowsay | sudo tee >> /etc/motd 
+      fortune | cowsay | sudo tee >> /etc/motd 
       printf "\n" | sudo tee >> /etc/motd
     else
       printf "\n" | sudo tee >> /etc/motd
@@ -218,9 +218,9 @@ else
 
   # Make motd
   sudo cp -Rf /etc/casjaysdev/messages/legal.txt /etc/issue
-  if [ -f /usr/games/fortune ] && [ -f /usr/games/cowsay ]; then
+  if [ -n "$(command -v fortune 2>/dev/null)" ] && [ -n "$(command -v cowsay 2>/dev/null)" ]; then
     printf "\n\n" | sudo tee > /etc/motd
-    /usr/games/fortune | /usr/games/cowsay | sudo tee >> /etc/motd 
+    fortune | cowsay | sudo tee >> /etc/motd 
     printf "\n" | sudo tee >> /etc/motd
   else
     printf "\n" | sudo tee >> /etc/motd
