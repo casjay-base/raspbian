@@ -88,7 +88,8 @@ if [ "$update" == "yes" ]; then
     sudo cp -Rf /etc/casjaysdev/messages/legal.txt /etc/issue
     if [ -f /usr/games/fortune ] && [ -f /usr/games/cowsay ]; then
       printf "\n\n" | sudo tee > /etc/motd
-      cat /etc/issue && /usr/games/fortune | /usr/games/cowsay | sudo tee >> /etc/motd 
+      cat /etc/issue | sudo tee >> /etc/motd
+      /usr/games/fortune | /usr/games/cowsay | sudo tee >> /etc/motd 
       printf "\n\n" | sudo tee >> /etc/motd
     fi
 
@@ -209,7 +210,9 @@ else
   sudo cp -Rf /etc/casjaysdev/messages/legal.txt /etc/issue
   if [ -f /usr/games/fortune ] && [ -f /usr/games/cowsay ]; then
     printf "\n\n" | sudo tee > /etc/motd
-    cat /etc/issue && /usr/games/fortune | /usr/games/cowsay | sudo tee >> /etc/motd 
+    cat /etc/issue | sudo tee >> /etc/motd
+    /usr/games/fortune | /usr/games/cowsay | sudo tee >> /etc/motd 
+    printf "\n\n" | sudo tee >> /etc/motd
     printf "\n\n" | sudo tee >> /etc/motd
   fi
 
