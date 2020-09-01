@@ -46,6 +46,10 @@ if [ ! -f $(which ntpd) ]; then
   sudo systemctl enable --now ntp >/dev/null 2>&1
 fi
 
+
+NETDEV="$(ip route | grep default | sed -e "s/^.*dev.//" -e "s/.proto.*//")"
+CURRIP4="$(/sbin/ifconfig $NETDEV | grep -E "venet|inet" | grep -v "127.0.0." | grep 'inet' | grep -v inet6 | awk '{print $2}' | sed 's#addr:##g' | head -n1 | awk '{print $1}')"
+
 ###############################################################################################
 
 sudo update-locale LANG=en_US.UTF-8 en_GB.UTF-8 || sudo localectl set-locale LANG=en_US.UTF-8
@@ -56,7 +60,6 @@ if [ "$update" == "yes" ]; then
 
   printf "${GREEN} *** ${RED}•${GREEN} Running the updater, this may take a few minutes ${RED}•${GREEN} ***${NC}\n"
   IFISONLINE=$( timeout 0.2 ping -c1 8.8.8.8 &>/dev/null; echo $? )
-  CURRIP4="$(/sbin/ifconfig | grep -E "venet|inet" | grep -v "127.0.0." | grep 'inet' | grep -v inet6 | awk '{print $2}' | sed 's#addr:##g' | head -n1)"
   if [ "$IFISONLINE" -ne "0" ]; then
     exit 1
   else
@@ -148,7 +151,6 @@ else
   sudo systemctl stop nginx apache2 >/dev/null 2>&1
 
   #Set ip and hostname
-  CURRIP4="$(/sbin/ifconfig | grep -E "venet|inet" | grep -v "127.0.0." | grep 'inet' | grep -v inet6 | awk '{print $2}' | sed 's#addr:##g' | head -n1)"
   sudo find /tmp/raspbian -type f -exec sed -i "s#MYHOSTIP#$CURRIP4#g" {} \; >/dev/null 2>&1
   sudo find /tmp/raspbian -type f -exec sed -i "s#MYHOSTNAME#$(hostname -s)#g" {} \; >/dev/null 2>&1
 
