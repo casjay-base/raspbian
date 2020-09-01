@@ -1,8 +1,33 @@
 #!/usr/bin/env bash
 
+APPNAME="clean-system"
+USER="${SUDO_USER:-${USER}}"
+HOME="${USER_HOME:-${HOME}}"
 PATH="/usr/games:$PATH"
 
-cp -Rf /etc/casjaysdev/messages/legal.txt /etc/issue
-printf "\n\n" | sudo tee > /etc/motd
-/usr/games/fortune | /usr/games/cowsay | sudo tee >> /etc/motd 
-printf "\n\n" | sudo tee >> /etc/motd
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# @Author      : Jason
+# @Contact     : jason@casjaysdev.com
+# @File        : clean-system
+# @Created     : Mon, Dec 31, 2019, 00:00 EST
+# @License     : WTFPL
+# @Copyright   : Copyright (c) CasjaysDev
+# @Description : Update the MOTD file
+#
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+if [ -f "/etc/casjaysdev/messages/legal.txt" ]; then
+  cp -Rf /etc/casjaysdev/messages/legal.txt /etc/issue
+fi
+
+if [ -n "$(command -v fortune 2>/dev/null)" ] && [ -n "$(command -v cowsay 2>/dev/null)" ]; then
+  printf "\n\n" | sudo tee > /etc/motd
+  fortune | cowsay | sudo tee >> /etc/motd 
+  printf "\n\n" | sudo tee >> /etc/motd
+else 
+  printf "\n\n" | sudo tee > /etc/motd
+fi
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+exit $?
