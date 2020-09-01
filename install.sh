@@ -48,8 +48,9 @@ fi
 
 ###############################################################################################
 
-NETDEV="$(ip route | grep default | sed -e "s/^.*dev.//" -e "s/.proto.*//")"
+NETDEV="$(ip route | grep default | sed -e "s/^.*dev.//" -e "s/.proto.*//" | awk '{print $1}')"
 CURRIP4="$(/sbin/ifconfig $NETDEV | grep -E "venet|inet" | grep -v "127.0.0." | grep 'inet' | grep -v inet6 | awk '{print $2}' | sed 's#addr:##g' | head -n1 | awk '{print $1}')"
+INSDATE="$(date +"%b %d, %Y at %H:%M")"
 
 ###############################################################################################
 
@@ -62,6 +63,7 @@ if [ "$update" == "yes" ]; then
   printf "${GREEN} *** ${RED}•${GREEN} Running the updater, this may take a few minutes ${RED}•${GREEN} ***${NC}\n"
   IFISONLINE=$( timeout 0.2 ping -c1 8.8.8.8 &>/dev/null; echo $? )
   if [ "$IFISONLINE" -ne "0" ]; then
+    printf "${RED}Not connected to the internet${NC}"
     exit 1
   else
 
@@ -83,21 +85,29 @@ if [ "$update" == "yes" ]; then
     sudo cp -Rf /tmp/raspbian/version.txt /etc/casjaysdev/updates/versions/raspbian.txt >/dev/null 2>&1
     sudo rm -Rf /etc/cron.*/0* >/dev/null 2>&1
     sudo rm -Rf /tmp/raspbian >/dev/null 2>&1
+    echo "$INSDATE" | sudo tee > /etc/casjaysdev/updates/versions/date.configs.txt
 
     # Make motd
     sudo cp -Rf /etc/casjaysdev/messages/legal.txt /etc/issue
     if [ -f /usr/games/fortune ] && [ -f /usr/games/cowsay ]; then
       printf "\n\n" | sudo tee > /etc/motd
       /usr/games/fortune | /usr/games/cowsay | sudo tee >> /etc/motd 
-      printf "\n\n" | sudo tee >> /etc/motd
+      printf "\n" | sudo tee >> /etc/motd
+    else
+      printf "\n" | sudo tee >> /etc/motd
     fi
+    printf "Raspbian version: $(cat /etc/debian_version)\t Config version: $(cat /etc/casjaysdev/updates/versions/configs.txt)" | sudo tee >> /etc/motd
+    printf "The configurations where last updated on: $(cat /etc/casjaysdev/updates/versions/date.configs.txt)" | sudo tee >> /etc/motd
+    printf "\n" | sudo tee >> /etc/motd
+    sudo cp -Rf /etc/motd /etc/motd.net
+    sudo cp -Rf /etc/issue /etc/issue.net
 
     # Update the scripts
     sudo bash -c "$(curl -LSs https://github.com/dfmgr/installer/raw/master/install.sh)" >/dev/null 2>&1 && \
     sudo dotfiles admin installer >/dev/null 2>&1
 
     # Done
-    NEWVERSION="$(echo $(curl -LSs https://github.com/casjay-base/raspbian/raw/master/version.txt | grep -v "#" | head -n 1))"
+    NEWVERSION="$(echo $(cat /etc/casjaysdev/updates/versions/raspbian.txt | grep -v "#" | head -n 1))"
     RESULT=$?
     #if [ $RESULT -eq 0 ]; then
     printf "${GREEN}      *** 😃 Updating of raspbian complete 😃 *** ${NC}\n"
@@ -165,6 +175,7 @@ else
   sudo cp -Rf /tmp/raspbian/{usr,etc,var}* / >/dev/null 2>&1
   sudo cp -Rf /tmp/raspbian/version.txt /etc/casjaysdev/updates/versions/configs.txt >/dev/null 2>&1
   sudo cp -Rf /tmp/raspbian/version.txt /etc/casjaysdev/updates/versions/raspbian.txt >/dev/null 2>&1
+  sudo echo "$INSDATE" | sudo tee > /etc/casjaysdev/updates/versions/date.configs.txt
 
   # Cleanup
   sudo rm -Rf /tmp/raspbian >/dev/null 2>&1
@@ -210,10 +221,17 @@ else
   if [ -f /usr/games/fortune ] && [ -f /usr/games/cowsay ]; then
     printf "\n\n" | sudo tee > /etc/motd
     /usr/games/fortune | /usr/games/cowsay | sudo tee >> /etc/motd 
-    printf "\n\n" | sudo tee >> /etc/motd
-    printf "\n\n" | sudo tee >> /etc/motd
+    printf "\n" | sudo tee >> /etc/motd
+  else
+    printf "\n" | sudo tee >> /etc/motd
   fi
-  
+  printf "Raspbian version: $(cat /etc/debian_version)\t Config version: $(cat /etc/casjaysdev/updates/versions/configs.txt)" | sudo tee >> /etc/motd
+  printf "The configurations where last updated on: $(cat /etc/casjaysdev/updates/versions/date.configs.txt)" | sudo tee >> /etc/motd
+  printf "\n" | sudo tee >> /etc/motd
+  sudo cp -Rf /etc/motd /etc/motd.net
+  sudo cp -Rf /etc/issue /etc/issue.net
+
+  # Install vimrc
   if [ -f "/etc/vim/vimrc.local" ]; then
     ln_sf "/etc/vim/vimrc.local" "$HOME/.vimrc"
   fi
@@ -224,7 +242,7 @@ else
   sudo dotfiles admin installer
 
   # Print installed version
-  NEWVERSION="$(echo $(curl -LSs https://github.com/casjay-base/raspbian/raw/master/version.txt | grep -v "#" | head -n 1))"
+  NEWVERSION="$(echo $(cat /etc/casjaysdev/updates/versions/raspbian.txt | grep -v "#" | head -n 1))"
   RESULT=$?
   #if [ $RESULT -eq 0 ]; then
   printf "${GREEN}      *** 😃 installation of raspbian complete 😃 *** ${NC}\n"
