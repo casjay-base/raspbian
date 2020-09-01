@@ -62,7 +62,7 @@ if [ "$update" == "yes" ]; then
   else
 
     # Default Web Assets
-    sudo bash -c "$(curl -LSs https://github.com/casjay-templates/default-web-assets/raw/master/setup.sh >/dev/null 2>&1)"
+    sudo bash -c "$(curl -LSs https://github.com/casjay-templates/default-web-assets/raw/master/setup.sh)" >/dev/null 2>&1
 
     # Ensure version directory exists
     mkdir -p /etc/casjaysdev/updates/versions >/dev/null 2>&1
