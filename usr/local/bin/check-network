@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-PATH="/usr/games:$PATH"
 APPNAME="check-network"
 USER="${SUDO_USER:-${USER}}"
 HOME="${USER_HOME:-${HOME}}"
+PATH="/usr/games:$PATH"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # @Author      : Jason
