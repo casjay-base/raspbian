@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
-APPNAME="$(basename $0)"
+APPNAME="update-raspbian"
 USER="${SUDO_USER:-${USER}}"
+HOME="${USER_HOME:-${HOME}}"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # @Author      : Jason
@@ -14,10 +15,9 @@ USER="${SUDO_USER:-${USER}}"
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-
 sleepcmd="$(expr $RANDOM \% 300)"
 
-sudo bash -c "$(curl -LSs https://github.com/dfmgr/installer/raw/master/install.sh)" >/dev/null 2>&1
+bash -c "$(curl -LSs https://github.com/systemmgr/installer/raw/master/install.sh)" >/dev/null 2>&1
 
 update=yes bash -c "$(wget -qO - https://github.com/casjay-base/raspbian/raw/master/install.sh)" >/dev/null 2>&1
 if [ -n "$(command -v pkmgr >/dev/null 2>&1)" ]; then
@@ -28,3 +28,7 @@ else
   apt update >/dev/null 2>&1
   apt dist-upgrade -yy -q >/dev/null 2>&1
 fi
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+exit $?
