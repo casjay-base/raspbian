@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+PATH="/usr/games:$PATH"
+
 cp -Rf /etc/casjaysdev/messages/legal.txt /etc/issue
 printf "\n\n" | sudo tee > /etc/motd
 /usr/games/fortune | /usr/games/cowsay | sudo tee >> /etc/motd 
