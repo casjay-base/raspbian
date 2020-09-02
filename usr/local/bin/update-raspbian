@@ -17,17 +17,16 @@ PATH="/usr/games:$PATH"
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 sleepcmd="$(expr $RANDOM \% 300)"
+sleep $sleepcmd
 
-bash -c "$(curl -LSs https://github.com/systemmgr/installer/raw/master/install.sh)" >/dev/null 2>&1
+sudo bash -c "$(curl -LSs https://github.com/systemmgr/installer/raw/master/install.sh)" >/dev/null 2>&1
 
-update=yes bash -c "$(wget -qO - https://github.com/casjay-base/raspbian/raw/master/install.sh)" >/dev/null 2>&1
+sudo update=yes bash -c "$(wget -qO - https://github.com/casjay-base/raspbian/raw/master/install.sh)" >/dev/null 2>&1
 if [ -n "$(command -v pkmgr >/dev/null 2>&1)" ]; then
-  sleep $sleepcmd
-  pkmgr makecache && pkmgr silent-upgrade
+  sudo pkmgr makecache && sudo pkmgr silent-upgrade
 else
-  sleep $sleepcmd
-  apt update >/dev/null 2>&1
-  apt dist-upgrade -yy -q >/dev/null 2>&1
+  sudo apt update >/dev/null 2>&1
+  sudo apt dist-upgrade -yy -q >/dev/null 2>&1
 fi
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
