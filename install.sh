@@ -61,9 +61,9 @@ sudo update-locale
 if [ "$update" == "yes" ]; then
 
   printf "${GREEN} *** ${RED}•${GREEN} Running the updater, this may take a few minutes ${RED}•${GREEN} ***${NC}\n"
-  IFISONLINE=$( timeout 0.2 ping -c1 8.8.8.8 &>/dev/null; echo $? )
+  IFISONLINE=$( timeout 1 ping -c1 8.8.8.8 &>/dev/null; echo $? )
   if [ "$IFISONLINE" -ne "0" ]; then
-    printf "${RED}Not connected to the internet${NC}"
+    printf "\n\n${RED} *** Not connected to the internet *** ${NC}\n\n"
     exit 1
   else
 
