@@ -1,3 +1,5 @@
+#Copy to /etc/apache2/sites-available/servername.conf
+
 #Primary VirtualHost - Full Domain
 
 <IfModule mod_ssl.c>
