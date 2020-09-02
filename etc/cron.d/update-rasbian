@@ -1,2 +1,0 @@
-#Update configs from github and update the OS at nightly 12:15
-15 00 * * * root /usr/local/bin/update-rasbian >/dev/null 2>&1
