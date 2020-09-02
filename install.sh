@@ -235,7 +235,7 @@ else
 
   # Install vimrc
   if [ -f "/etc/vim/vimrc.local" ]; then
-    ln_sf "/etc/vim/vimrc.local" "$HOME/.vimrc"
+    ln -sf "/etc/vim/vimrc.local" "$HOME/.vimrc"
   fi
 
   # Update the scripts
