@@ -1,4 +1,4 @@
-#Copy to /etc/httpd/conf/vhosts.d/servername.conf
+#Copy to /etc/apache2/sites-available/servername.conf
 #
 #Primary VirtualHost - Full Domain
 
