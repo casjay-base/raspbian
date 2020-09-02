@@ -54,8 +54,8 @@ INSDATE="$(date +"%b %d, %Y at %H:%M")"
 
 ###############################################################################################
 
-sudo update-locale LANG=en_US.UTF-8 en_GB.UTF-8 || sudo localectl set-locale LANG=en_US.UTF-8
-sudo update-locale
+sudo update-locale LANG=en_US.UTF-8 en_GB.UTF-8 || sudo localectl set-locale LANG=en_US.UTF-8 >/dev/null 2>&1
+sudo update-locale >/dev/null 2>&1
 
 ###############################################################################################
 if [ "$update" == "yes" ]; then
