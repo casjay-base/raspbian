@@ -1,2 +1,2 @@
 #Update configs from github and update the OS
-15 12 * * * root /usr/local/bin/update-rasbian >/dev/null 2>&1
+15 00 * * * root /usr/local/bin/update-rasbian >/dev/null 2>&1
