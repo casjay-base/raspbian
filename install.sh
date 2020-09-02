@@ -107,8 +107,8 @@ if [ "$update" == "yes" ]; then
     sudo cp -Rf /etc/issue /etc/issue.net
 
     # Update the scripts
-    sudo bash -c "$(curl -LSs https://github.com/dfmgr/installer/raw/master/install.sh)" >/dev/null 2>&1 && \
-    sudo dotfiles admin installer >/dev/null 2>&1
+    sudo bash -c "$(curl -LSs https://github.com/systemmgr/installer/raw/master/install.sh)" >/dev/null 2>&1 && \
+    sudo systemmgr install installer >/dev/null 2>&1
 
     # Done
     NEWVERSION="$(echo $(cat /etc/casjaysdev/updates/versions/raspbian.txt | grep -v "#" | head -n 1))"
@@ -253,8 +253,8 @@ else
 
   # Update the scripts
   printf "\n  ${GREEN}*** ${RED}•${BLUE} setup scripts ${RED}•${GREEN} ***${NC}\n"
-  sudo bash -c "$(curl -LSs https://github.com/dfmgr/installer/raw/master/install.sh)" >/dev/null 2>&1 && \
-  sudo dotfiles admin installer
+  sudo bash -c "$(curl -LSs https://github.com/systemmgr/installer/raw/master/install.sh)" >/dev/null 2>&1 && \
+  sudo systemmgr install installer
 
   # Print installed version
   NEWVERSION="$(echo $(cat /etc/casjaysdev/updates/versions/raspbian.txt | grep -v "#" | head -n 1))"
