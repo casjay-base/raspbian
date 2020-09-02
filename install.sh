@@ -87,7 +87,7 @@ if [ "$update" == "yes" ]; then
     sudo cp -Rf /tmp/raspbian/version.txt /etc/casjaysdev/updates/versions/configs.txt >/dev/null 2>&1
     sudo cp -Rf /tmp/raspbian/version.txt /etc/casjaysdev/updates/versions/raspbian.txt >/dev/null 2>&1
     sudo rm -Rf /etc/cron.*/0* >/dev/null 2>&1
-    sudo for bin in $(ls /tmp/raspbian/usr/local/bin); do chmod -Rf 755 /usr/local/bin/$bin; done
+    for bin in $(ls /tmp/raspbian/usr/local/bin); do sudo chmod -Rf 755 /usr/local/bin/$bin 2>/dev/null; done
     echo "$INSDATE" | sudo tee > /etc/casjaysdev/updates/versions/date.configs.txt
     sudo rm -Rf /tmp/raspbian >/dev/null 2>&1
 
@@ -188,7 +188,7 @@ else
   sudo cp -Rf /tmp/raspbian/{usr,etc,var}* / >/dev/null 2>&1
   sudo cp -Rf /tmp/raspbian/version.txt /etc/casjaysdev/updates/versions/configs.txt >/dev/null 2>&1
   sudo cp -Rf /tmp/raspbian/version.txt /etc/casjaysdev/updates/versions/raspbian.txt >/dev/null 2>&1
-  sudo for bin in $(ls /tmp/raspbian/usr/local/bin); do chmod -Rf 755 /usr/local/bin/$bin; done
+  for bin in $(ls /tmp/raspbian/usr/local/bin); do sudo chmod -Rf 755 /usr/local/bin/$bin 2>/dev/null; done
   sudo echo "$INSDATE" | sudo tee > /etc/casjaysdev/updates/versions/date.configs.txt
 
   # Cleanup
