@@ -19,15 +19,9 @@ PATH="/usr/games:$PATH"
 HOST=$(hostname -f)
 HOSTNAME=$(hostname -f)
 HOSTSHORT=$(hostname -s)
-IFISONLINE=$(
-  timeout 0.2 ping -c1 8.8.8.8 &>/dev/null
-  echo $?
-)
-IFISLOCAL=$(
-  timeout 0.2 ping -c1 10.0.0.1 &>/dev/null
-  echo $?
-)
-NETDEV="$(ip route | grep default | sed -e "s/^.*dev.//" -e "s/.proto.*//")"
+IFISONLINE=$(timeout 1 ping -c1 8.8.8.8 &>/dev/null; echo $?)
+IFISLOCAL=$(timeout 0.5 ping -c1 10.0.0.1 &>/dev/null; echo $?)
+NETDEV="$(ip route | grep default | sed -e "s/^.*dev.//" -e "s/.proto.*//" | awk '{print $1}')"
 CURRIP4="$(/sbin/ifconfig $NETDEV | grep -E "venet|inet" | grep -v "127.0.0." | grep 'inet' | grep -v inet6 | awk '{print $2}' | sed 's#addr:##g' | head -n1)"
 
 if [ "$NETDEV" == "wlan*" ]; then
