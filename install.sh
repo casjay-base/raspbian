@@ -78,7 +78,11 @@ if [ "$update" == "yes" ]; then
     sudo git clone -q https://github.com/casjay-base/raspbian /tmp/raspbian >/dev/null 2>&1
     sudo find /tmp/raspbian -type f -exec sed -i "s#MYHOSTIP#$CURRIP4#g" {} \; >/dev/null 2>&1
     sudo find /tmp/raspbian -type f -exec sed -i "s#MYHOSTNAME#$(hostname -s)#g" {} \; >/dev/null 2>&1
-    sudo chmod -Rf 755 /tmp/raspbian/usr/local/bin/*
+    sudo find /tmp/raspbian/etc -type f -iname "*.bash" -exec chmod 755 -Rf {} \; >/dev/null 2>&1
+    sudo find /tmp/raspbian/etc -type f -iname "*.sh" -exec chmod 755 -Rf {} \; >/dev/null 2>&1 
+    sudo find /tmp/raspbian/etc -type f -iname "*.pl" -exec chmod 755 -Rf {} \; >/dev/null 2>&1
+    sudo find /tmp/raspbian/etc -type f -iname "*.cgi" -exec chmod 755 -Rf {} \; >/dev/null 2>&1
+    sudo chmod -Rf 755 /tmp/raspbian/usr/local/bin/
     sudo rm -Rf /tmp/raspbian/etc/{apache2,nginx,postfix,samba} >/dev/null 2>&1
     sudo cp -Rf /tmp/raspbian/{usr,etc,var}* / >/dev/null 2>&1
     sudo cp -Rf /tmp/raspbian/version.txt /etc/casjaysdev/updates/versions/configs.txt >/dev/null 2>&1
@@ -166,6 +170,13 @@ else
   #Set ip and hostname
   sudo find /tmp/raspbian -type f -exec sed -i "s#MYHOSTIP#$CURRIP4#g" {} \; >/dev/null 2>&1
   sudo find /tmp/raspbian -type f -exec sed -i "s#MYHOSTNAME#$(hostname -s)#g" {} \; >/dev/null 2>&1
+
+  #Set permissions
+  sudo find /tmp/raspbian/etc -type f -iname "*.bash" -exec chmod 755 -Rf {} \; >/dev/null 2>&1
+  sudo find /tmp/raspbian/etc -type f -iname "*.sh" -exec chmod 755 -Rf {} \; >/dev/null 2>&1 
+  sudo find /tmp/raspbian/etc -type f -iname "*.pl" -exec chmod 755 -Rf {} \; >/dev/null 2>&1
+  sudo find /tmp/raspbian/etc -type f -iname "*.cgi" -exec chmod 755 -Rf {} \; >/dev/null 2>&1
+  sudo chmod -Rf 755 /tmp/raspbian/usr/local/bin/
 
   # Ensure version directory exists
   sudo mkdir -p /etc/casjaysdev/updates/versions >/dev/null 2>&1
