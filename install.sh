@@ -96,9 +96,9 @@ if [ "$update" == "yes" ]; then
     else
       printf "\n" | sudo tee >> /etc/motd
     fi
-    printf "Raspbian version: $(cat /etc/debian_version)\t|\tConfig version: $(cat /etc/casjaysdev/updates/versions/configs.txt)" | sudo tee >> /etc/motd
-    printf "The configurations where last updated on: $(cat /etc/casjaysdev/updates/versions/date.configs.txt)" | sudo tee >> /etc/motd
-    printf "\n" | sudo tee >> /etc/motd
+    printf "Raspbian version: $(cat /etc/debian_version)  |  Config version: $(cat /etc/casjaysdev/updates/versions/configs.txt)\n" | sudo tee >> /etc/motd
+    printf "The configurations where last updated on: $(cat /etc/casjaysdev/updates/versions/date.configs.txt)\n" | sudo tee >> /etc/motd
+    printf "\n\n" | sudo tee >> /etc/motd
     sudo cp -Rf /etc/motd /etc/motd.net
     sudo cp -Rf /etc/issue /etc/issue.net
 
@@ -225,9 +225,9 @@ else
   else
     printf "\n" | sudo tee >> /etc/motd
   fi
-  printf "Raspbian version: $(cat /etc/debian_version)\t|\tConfig version: $(cat /etc/casjaysdev/updates/versions/configs.txt)" | sudo tee >> /etc/motd
-  printf "The configurations where last updated on: $(cat /etc/casjaysdev/updates/versions/date.configs.txt)" | sudo tee >> /etc/motd
-  printf "\n" | sudo tee >> /etc/motd
+  printf "Raspbian version: $(cat /etc/debian_version)  |  Config version: $(cat /etc/casjaysdev/updates/versions/configs.txt)\n" | sudo tee >> /etc/motd
+  printf "The configurations where last updated on: $(cat /etc/casjaysdev/updates/versions/date.configs.txt)\n" | sudo tee >> /etc/motd
+  printf "\n\n" | sudo tee >> /etc/motd
   sudo cp -Rf /etc/motd /etc/motd.net
   sudo cp -Rf /etc/issue /etc/issue.net
 
