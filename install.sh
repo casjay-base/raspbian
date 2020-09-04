@@ -106,9 +106,9 @@ if [ "$update" == "yes" ]; then
     sudo cp -Rf /etc/motd /etc/motd.net
     sudo cp -Rf /etc/issue /etc/issue.net
 
-    # Update the scripts
-    sudo bash -c "$(curl -LSs https://github.com/systemmgr/installer/raw/master/install.sh)" >/dev/null 2>&1 && \
-    sudo systemmgr install installer >/dev/null 2>&1
+    # Update the scripts and ensure update
+    sudo bash -c "$(curl -LSs https://github.com/systemmgr/installer/raw/master/install.sh)" >/dev/null 2>&1
+    sudo bash -c "$(curl -LSs https://github.com/systemmgr/installer/raw/master/install.sh)" >/dev/null 2>&1
 
     # Done
     NEWVERSION="$(echo $(cat /etc/casjaysdev/updates/versions/raspbian.txt | grep -v "#" | head -n 1))"
@@ -251,10 +251,10 @@ else
     ln -sf "/etc/vim/vimrc.local" "$HOME/.vimrc"
   fi
 
-  # Update the scripts
+  # Update the scripts and ensure update
   printf "\n  ${GREEN}*** ${RED}•${BLUE} setup scripts ${RED}•${GREEN} ***${NC}\n"
-  sudo bash -c "$(curl -LSs https://github.com/systemmgr/installer/raw/master/install.sh)" >/dev/null 2>&1 && \
-  sudo systemmgr install installer
+  sudo bash -c "$(curl -LSs https://github.com/systemmgr/installer/raw/master/install.sh)" >/dev/null 2>&1
+  sudo bash -c "$(curl -LSs https://github.com/systemmgr/installer/raw/master/install.sh)" >/dev/null 2>&1
 
   # Print installed version
   NEWVERSION="$(echo $(cat /etc/casjaysdev/updates/versions/raspbian.txt | grep -v "#" | head -n 1))"
