@@ -40,8 +40,8 @@ server {
     proxy_set_header        Connection $connection_upgrade;
     }
 
-#  location /uri {
-#    rewrite /uri/(.*) /$1 break;
+#  location ~ ^/uri {
+#    rewrite ^/(.*)$ /$1 break;
 #    proxy_pass http://127.0.0.1:port/;
 #    proxy_set_header X-Real-IP $remote_addr;
 #    proxy_set_header Host $host;
@@ -49,8 +49,8 @@ server {
 #    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 #    }   
 
-#  location /uri/(.*)$ {
-#    rewrite ^/(.*)$ http://$host:port/$1 permanent;
+#  location ~ ^/uri {
+#    rewrite ^/(.*)$ http://$host:port/ permanent;
 #    }
 
     include /etc/nginx/global.d/nginx-defaults.conf;
