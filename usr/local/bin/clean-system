@@ -16,14 +16,14 @@ PATH="/usr/games:$PATH"
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-if [ -f /etc/cron.daily/logrotate ]; then rm -f /etc/cron.daily/logrotate; fi
+if [ -f /etc/cron.daily/logrotate ]; then sudo rm -f /etc/cron.daily/logrotate; fi
 
-logrotate -f /etc/logrotate.conf >/dev/null 2>&1
+sudo logrotate -f /etc/logrotate.conf >/dev/null 2>&1
 
-/bin/rm -Rf /var/log/bandwidth >/dev/null
-/bin/rm -Rf /var/log/*.{0,1,2,3,4,5,6,7,8,9} /var/log/*/*.{0,1,2,3,4,5,6,7,8,9} /var/log/*/*/*.{0,1,2,3,4,5,6,7,8,9} >/dev/null
-/bin/rm -Rf /var/log/*.gz /var/log/*/*.gz /var/log/*/*/*.gz >/dev/null
-/bin/rm -Rf /var/log/*.old /var/log/*/*.old /var/log/*/*/*.old >/dev/null
+sudo rm -Rf /var/log/bandwidth >/dev/null 2>&1
+sudo rm -Rf /var/log/*.{0,1,2,3,4,5,6,7,8,9} /var/log/*/*.{0,1,2,3,4,5,6,7,8,9} /var/log/*/*/*.{0,1,2,3,4,5,6,7,8,9} >/dev/null 2>&1
+sudo rm -Rf /var/log/*.gz /var/log/*/*.gz /var/log/*/*/*.gz >/dev/null 2>&1
+sudo rm -Rf /var/log/*.old /var/log/*/*.old /var/log/*/*/*.old >/dev/null 2>&1
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
