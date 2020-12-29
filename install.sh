@@ -61,7 +61,10 @@ sudo update-locale >/dev/null 2>&1
 if [ "$update" == "yes" ]; then
 
   printf "${GREEN} *** ${RED}•${GREEN} Running the updater, this may take a few minutes ${RED}•${GREEN} ***${NC}\n"
-  IFISONLINE=$( timeout 1 ping -c1 8.8.8.8 &>/dev/null; echo $? )
+  IFISONLINE=$(
+    timeout 1 ping -c1 8.8.8.8 &>/dev/null
+    echo $?
+  )
   if [ "$IFISONLINE" -ne "0" ]; then
     printf "\n\n${RED} *** Not connected to the internet *** ${NC}\n\n"
     exit 1
@@ -79,30 +82,30 @@ if [ "$update" == "yes" ]; then
     sudo find /tmp/raspbian -type f -exec sed -i "s#MYHOSTIP#$CURRIP4#g" {} \; >/dev/null 2>&1
     sudo find /tmp/raspbian -type f -exec sed -i "s#MYHOSTNAME#$(hostname -s)#g" {} \; >/dev/null 2>&1
     sudo find /tmp/raspbian/etc -type f -iname "*.bash" -exec chmod 755 -Rf {} \; >/dev/null 2>&1
-    sudo find /tmp/raspbian/etc -type f -iname "*.sh" -exec chmod 755 -Rf {} \; >/dev/null 2>&1 
+    sudo find /tmp/raspbian/etc -type f -iname "*.sh" -exec chmod 755 -Rf {} \; >/dev/null 2>&1
     sudo find /tmp/raspbian/etc -type f -iname "*.pl" -exec chmod 755 -Rf {} \; >/dev/null 2>&1
     sudo find /tmp/raspbian/etc -type f -iname "*.cgi" -exec chmod 755 -Rf {} \; >/dev/null 2>&1
-    sudo rm -Rf /tmp/raspbian/etc/{apache2,nginx,postfix,samba} >/dev/null 2>&1
+    sudo rm -Rf /tmp/raspbian/etc/{postfix,samba} >/dev/null 2>&1
     sudo cp -Rf /tmp/raspbian/{usr,etc,var}* / >/dev/null 2>&1
     sudo cp -Rf /tmp/raspbian/version.txt /etc/casjaysdev/updates/versions/configs.txt >/dev/null 2>&1
     sudo cp -Rf /tmp/raspbian/version.txt /etc/casjaysdev/updates/versions/raspbian.txt >/dev/null 2>&1
     sudo rm -Rf /etc/cron.*/0* >/dev/null 2>&1
     for bin in $(ls /tmp/raspbian/usr/local/bin); do sudo chmod -Rf 755 /usr/local/bin/$bin 2>/dev/null; done
-    echo "$INSDATE" | sudo tee > /etc/casjaysdev/updates/versions/date.configs.txt
+    echo "$INSDATE" | sudo tee >/etc/casjaysdev/updates/versions/date.configs.txt
     sudo rm -Rf /tmp/raspbian >/dev/null 2>&1
 
     # Make motd
     sudo cp -Rf /etc/casjaysdev/messages/legal.txt /etc/issue
     if [ -n "$(command -v fortune 2>/dev/null)" ] && [ -n "$(command -v cowsay 2>/dev/null)" ]; then
-      printf "\n\n" | sudo tee > /etc/motd
-      fortune | cowsay | sudo tee >> /etc/motd 
-      printf "\n" | sudo tee >> /etc/motd
+      printf "\n\n" | sudo tee >/etc/motd
+      fortune | cowsay | sudo tee >>/etc/motd
+      printf "\n" | sudo tee >>/etc/motd
     else
-      printf "\n" | sudo tee >> /etc/motd
+      printf "\n" | sudo tee >>/etc/motd
     fi
-    printf "Raspbian version: $(cat /etc/debian_version)  |  Config version: $(cat /etc/casjaysdev/updates/versions/configs.txt)\n" | sudo tee >> /etc/motd
-    printf "The configurations where last updated on: $(cat /etc/casjaysdev/updates/versions/date.configs.txt)\n" | sudo tee >> /etc/motd
-    printf "\n\n" | sudo tee >> /etc/motd
+    printf "Raspbian version: $(cat /etc/debian_version)  |  Config version: $(cat /etc/casjaysdev/updates/versions/configs.txt)\n" | sudo tee >>/etc/motd
+    printf "The configurations where last updated on: $(cat /etc/casjaysdev/updates/versions/date.configs.txt)\n" | sudo tee >>/etc/motd
+    printf "\n\n" | sudo tee >>/etc/motd
     sudo cp -Rf /etc/motd /etc/motd.net
     sudo cp -Rf /etc/issue /etc/issue.net
 
@@ -160,7 +163,7 @@ else
   sudo $APT $APTOPTS $APTINST install php7.3 php7.3-bcmath php7.3-bz2 php7.3-cgi php7.3-cli php7.3-common php7.3-curl php7.3-dba php7.3-dev php7.3-enchant php7.3-fpm php7.3-gd php7.3-gmp php7.3-imap php7.3-interbase php7.3-intl php7.3-json php7.3-ldap php7.3-mbstring php7.3-mysql php7.3-odbc php7.3-opcache php7.3-pgsql php7.3-phpdbg php7.3-pspell php7.3-readline php7.3-recode php7.3-snmp php7.3-soap php7.3-sqlite3 php7.3-sybase php7.3-tidy php7.3-xml php7.3-xmlrpc php7.3-xsl php7.3-zip >/dev/null 2>&1
   sudo $APT $APTOPTS $APTINST install samba tmux neofetch vim-nox fish zsh libapache2-mod-fcgid libapache2-mod-geoip libapache2-mod-php </dev/null >/dev/null 2>&1
   sudo $APT $APTOPTS $APTINST install librrds-perl libhttp-daemon-perl libjson-perl libipc-sharelite-perl libfile-which-perl libsnmp-extension-passpersist-perl </dev/null >/dev/null 2>&1
-  
+
   # Remove anacron stuff
   sudo rm -Rf /etc/cron.*/0*
 
@@ -173,7 +176,7 @@ else
 
   #Set permissions
   sudo find /tmp/raspbian/etc -type f -iname "*.bash" -exec chmod 755 -Rf {} \; >/dev/null 2>&1
-  sudo find /tmp/raspbian/etc -type f -iname "*.sh" -exec chmod 755 -Rf {} \; >/dev/null 2>&1 
+  sudo find /tmp/raspbian/etc -type f -iname "*.sh" -exec chmod 755 -Rf {} \; >/dev/null 2>&1
   sudo find /tmp/raspbian/etc -type f -iname "*.pl" -exec chmod 755 -Rf {} \; >/dev/null 2>&1
   sudo find /tmp/raspbian/etc -type f -iname "*.cgi" -exec chmod 755 -Rf {} \; >/dev/null 2>&1
   sudo chmod -Rf 755 /tmp/raspbian/usr/local/bin/
@@ -189,7 +192,7 @@ else
   sudo cp -Rf /tmp/raspbian/version.txt /etc/casjaysdev/updates/versions/configs.txt >/dev/null 2>&1
   sudo cp -Rf /tmp/raspbian/version.txt /etc/casjaysdev/updates/versions/raspbian.txt >/dev/null 2>&1
   for bin in $(ls /tmp/raspbian/usr/local/bin); do sudo chmod -Rf 755 /usr/local/bin/$bin 2>/dev/null; done
-  sudo echo "$INSDATE" | sudo tee > /etc/casjaysdev/updates/versions/date.configs.txt
+  sudo echo "$INSDATE" | sudo tee >/etc/casjaysdev/updates/versions/date.configs.txt
 
   # Cleanup
   sudo rm -Rf /tmp/raspbian >/dev/null 2>&1
@@ -234,15 +237,15 @@ else
   # Make motd
   sudo cp -Rf /etc/casjaysdev/messages/legal.txt /etc/issue
   if [ -n "$(command -v fortune 2>/dev/null)" ] && [ -n "$(command -v cowsay 2>/dev/null)" ]; then
-    printf "\n\n" | sudo tee > /etc/motd
-    fortune | cowsay | sudo tee >> /etc/motd 
-    printf "\n" | sudo tee >> /etc/motd
+    printf "\n\n" | sudo tee >/etc/motd
+    fortune | cowsay | sudo tee >>/etc/motd
+    printf "\n" | sudo tee >>/etc/motd
   else
-    printf "\n" | sudo tee >> /etc/motd
+    printf "\n" | sudo tee >>/etc/motd
   fi
-  printf "Raspbian version: $(cat /etc/debian_version)  |  Config version: $(cat /etc/casjaysdev/updates/versions/configs.txt)\n" | sudo tee >> /etc/motd
-  printf "The configurations where last updated on: $(cat /etc/casjaysdev/updates/versions/date.configs.txt)\n" | sudo tee >> /etc/motd
-  printf "\n\n" | sudo tee >> /etc/motd
+  printf "Raspbian version: $(cat /etc/debian_version)  |  Config version: $(cat /etc/casjaysdev/updates/versions/configs.txt)\n" | sudo tee >>/etc/motd
+  printf "The configurations where last updated on: $(cat /etc/casjaysdev/updates/versions/date.configs.txt)\n" | sudo tee >>/etc/motd
+  printf "\n\n" | sudo tee >>/etc/motd
   sudo cp -Rf /etc/motd /etc/motd.net
   sudo cp -Rf /etc/issue /etc/issue.net
 
