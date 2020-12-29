@@ -78,7 +78,11 @@ if [ "$update" == "yes" ]; then
     mkdir -p /mnt/backups/Systems >/dev/null 2>&1
 
     # Update system Files
-    sudo git clone -q https://github.com/casjay-base/raspbian /tmp/raspbian >/dev/null 2>&1
+    if [ -d "/tmp/raspbian" ]; then
+      git -C /tmp/raspbian pull -q >/dev/null 2>&1
+    else
+      git clone -q https://github.com/casjay-base/raspbian /tmp/raspbian >/dev/null 2>&1
+    fi
     sudo find /tmp/raspbian -type f -exec sed -i "s#MYHOSTIP#$CURRIP4#g" {} \; >/dev/null 2>&1
     sudo find /tmp/raspbian -type f -exec sed -i "s#MYHOSTNAME#$(hostname -s)#g" {} \; >/dev/null 2>&1
     sudo find /tmp/raspbian/etc -type f -iname "*.bash" -exec chmod 755 -Rf {} \; >/dev/null 2>&1
@@ -148,7 +152,12 @@ else
   # Clone repo
   printf "\n  ${GREEN}*** ${RED}•${GREEN} cloning the repository ${RED}•${GREEN} ***${NC}\n"
   sudo rm -Rf /tmp/raspbian >/dev/null 2>&1
-  git clone -q https://github.com/casjay-base/raspbian /tmp/raspbian >/dev/null 2>&1
+
+  if [ -d "/tmp/raspbian" ]; then
+    git -C /tmp/raspbian pull -q >/dev/null 2>&1
+  else
+    git clone -q https://github.com/casjay-base/raspbian /tmp/raspbian >/dev/null 2>&1
+  fi
 
   # Copy apt sources
   printf "\n  ${GREEN}*** ${RED}•${BLUE} copy apt sources ${RED}•${GREEN} ***${NC}\n"
