@@ -1,2 +1,2 @@
-# Clean System cron job
+# Clean old System logs
 15 04 * * * root /usr/local/bin/clean-system >/dev/null 2>&1

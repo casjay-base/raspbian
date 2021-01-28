@@ -17,16 +17,18 @@ PATH="/usr/games:$PATH"
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+am_i_online || exit
+
 sleepcmd="$(expr $RANDOM \% 300)"
 sleep "$sleepcmd"
 
-sudo update=yes bash -c "$(wget -qO - https://github.com/casjay-base/raspbian/raw/master/install.sh)"
+sudo update=yes bash -c "$(curl -LSs https://github.com/casjay-base/raspbian/raw/master/install.sh 2>/dev/null || exit)"
 
-if [ -n "$(command -v pkmgr >/dev/null 2>&1)" ]; then
+if [ -f "$(command -v pkmgr >/dev/null 2>&1)" ]; then
   sudo pkmgr makecache && sudo pkmgr silent-upgrade
 else
-  sudo apt update
-  sudo apt dist-upgrade -yy -q
+  sudo apt update 2>/dev/null
+  sudo apt dist-upgrade -yy -q 2>/dev/null
 fi
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
