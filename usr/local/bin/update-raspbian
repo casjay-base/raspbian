@@ -6,7 +6,7 @@ HOME="${USER_HOME:-${HOME}}"
 PATH="/usr/games:$PATH"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-##@Version     : 012820211212-git
+##@Version     : 012820211718-git
 # @Author      : Jason
 # @Contact     : jason@casjaysdev.com
 # @File        : update-raspbian
@@ -17,18 +17,25 @@ PATH="/usr/games:$PATH"
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-am_i_online || exit
+am_i_online || exit 1
 
-sleepcmd="$(expr $RANDOM \% 300)"
-sleep "$sleepcmd"
+#sleepcmd="$(expr $RANDOM \% 300)"
+#sleep "$sleepcmd"
+curlcmd="$(curl --disable -LSsfk --connect-timeout 2 --retry 0 --fail https://github.com/casjay-base/raspbian/raw/master/install.sh)"
 
-sudo update=yes bash -c "$(curl -LSs https://github.com/casjay-base/raspbian/raw/master/install.sh 2>/dev/null || exit)"
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+if [[ $(id -u) -eq 0 ]] || [[ $EUID -eq 0 ]] || [[ "$WHOAMI" = "root" ]]; then
+  update=yes bash -c "$curlcmd" 2>/dev/null
 
-if [ -f "$(command -v pkmgr >/dev/null 2>&1)" ]; then
-  sudo pkmgr makecache && sudo pkmgr silent-upgrade
+  if [ -f "$(command -v pkmgr >/dev/null 2>&1)" ]; then
+    pkmgr makecache && sudo pkmgr silent-upgrade
+  else
+    apt update 2>/dev/null
+    apt dist-upgrade -yy -q 2>/dev/null
+  fi
 else
-  sudo apt update 2>/dev/null
-  sudo apt dist-upgrade -yy -q 2>/dev/null
+  echo "You need to be root | sudo $APPNAME"
+  exit 1
 fi
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
