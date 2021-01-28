@@ -1,2 +1,5 @@
 # Depends: authn_core
 LoadModule access_compat_module /usr/lib/apache2/modules/mod_access_compat.so
+
+
+# vim: syntax=apache ts=2 sw=2 sr noet

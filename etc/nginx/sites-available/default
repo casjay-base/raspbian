@@ -22,3 +22,5 @@ server {
 	#	deny all;
 	#}
 }
+
+# vim:ts=2:sw=2

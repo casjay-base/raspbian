@@ -39,8 +39,8 @@ APTOPTS="-o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confol
 APTINST="--ignore-missing -yy -qq --allow-unauthenticated --assume-yes"
 
 ###############################################################################################
-if [ ! -f $(which ntpd) ]; then
-  sudo $APT $APTOPTS $APTINST install ntp ntpdate </dev/null >/dev/null 2>&1
+if [ ! -f "$(command -v ntpd)" ]; then
+  sudo "$APT" "$APTOPTS" "$APTINST" install ntp ntpdate </dev/null >/dev/null 2>&1
   sudo systemctl stop ntp >/dev/null 2>&1
   sudo ntpdate ntp.casjay.in >/dev/null 2>&1
   sudo systemctl enable --now ntp >/dev/null 2>&1
@@ -49,7 +49,7 @@ fi
 ###############################################################################################
 
 NETDEV="$(ip route | grep default | sed -e "s/^.*dev.//" -e "s/.proto.*//" | awk '{print $1}')"
-CURRIP4="$(/sbin/ifconfig $NETDEV | grep -E "venet|inet" | grep -v "127.0.0." | grep 'inet' | grep -v inet6 | awk '{print $2}' | sed 's#addr:##g' | head -n1 | awk '{print $1}')"
+CURRIP4="$(/sbin/ifconfig "$NETDEV" | grep -E "venet|inet" | grep -v "127.0.0." | grep 'inet' | grep -v inet6 | awk '{print $2}' | sed 's#addr:##g' | head -n1 | awk '{print $1}')"
 INSDATE="$(date +"%b %d, %Y at %H:%M")"
 
 ###############################################################################################
@@ -94,22 +94,22 @@ if [ "$update" == "yes" ]; then
     sudo cp -Rf /tmp/raspbian/version.txt /etc/casjaysdev/updates/versions/configs.txt >/dev/null 2>&1
     sudo cp -Rf /tmp/raspbian/version.txt /etc/casjaysdev/updates/versions/raspbian.txt >/dev/null 2>&1
     sudo rm -Rf /etc/cron.*/0* >/dev/null 2>&1
-    for bin in $(ls /tmp/raspbian/usr/local/bin); do sudo chmod -Rf 755 /usr/local/bin/$bin 2>/dev/null; done
-    echo "$INSDATE" | sudo tee >/etc/casjaysdev/updates/versions/date.configs.txt
+    for bin in "$(ls /tmp/raspbian/usr/local/bin)"; do sudo chmod -Rf 755 "/usr/local/bin/$bin" 2>/dev/null; done
+    echo "$INSDATE" | sudo tee /etc/casjaysdev/updates/versions/date.configs.txt &>dev/null
     sudo rm -Rf /tmp/raspbian >/dev/null 2>&1
 
     # Make motd
     sudo cp -Rf /etc/casjaysdev/messages/legal.txt /etc/issue
     if [ -n "$(command -v fortune 2>/dev/null)" ] && [ -n "$(command -v cowsay 2>/dev/null)" ]; then
-      printf "\n\n" | sudo tee >/etc/motd
-      fortune | cowsay | sudo tee >>/etc/motd
-      printf "\n" | sudo tee >>/etc/motd
+      printf "\n\n" | sudo tee /etc/motd &>dev/null
+      fortune | cowsay | sudo tee -a /etc/motd &>dev/null
+      printf "\n" | sudo tee -a /etc/motd &>dev/null
     else
-      printf "\n" | sudo tee >>/etc/motd
+      printf "\n" | sudo tee -a /etc/motd &>dev/null
     fi
-    printf "Raspbian version: $(cat /etc/debian_version)  |  Config version: $(cat /etc/casjaysdev/updates/versions/configs.txt)\n" | sudo tee >>/etc/motd
-    printf "The configurations where last updated on: $(cat /etc/casjaysdev/updates/versions/date.configs.txt)\n" | sudo tee >>/etc/motd
-    printf "\n\n" | sudo tee >>/etc/motd
+    printf "Raspbian version: $(cat /etc/debian_version)  |  Config version: $(cat /etc/casjaysdev/updates/versions/configs.txt)\n" | sudo tee -a /etc/motd &>/dev/null
+    printf "The configurations where last updated on: $(cat /etc/casjaysdev/updates/versions/date.configs.txt)\n" | sudo tee -a /etc/motd &>/dev/null
+    printf "\n\n" | sudo tee -a /etc/motd &>dev/null
     sudo cp -Rf /etc/motd /etc/motd.net
     sudo cp -Rf /etc/issue /etc/issue.net
 
@@ -144,10 +144,10 @@ else
   curl -Ls https://ftp-master.debian.org/keys/archive-key-10-security.asc | sudo apt-key add - >/dev/null 2>&1
   curl -Ls https://archive.raspbian.org/raspbian.public.key | sudo apt-key add - >/dev/null 2>&1
   sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 2C0D3C0F >/dev/null 2>&1
-  sudo $APT $APTOPTS $APTINST update >/dev/null 2>&1
-  sudo $APT $APTOPTS $APTINST update >/dev/null 2>&1
-  sudo $APT $APTOPTS $APTINST update >/dev/null 2>&1
-  sudo $APT $APTOPTS $APTINST install vim debian-archive-keyring debian-keyring </dev/null >/dev/null 2>&1
+  sudo "$APT" "$APTOPTS" "$APTINST" update >/dev/null 2>&1
+  sudo "$APT" "$APTOPTS" "$APTINST" update >/dev/null 2>&1
+  sudo "$APT" "$APTOPTS" "$APTINST" update >/dev/null 2>&1
+  sudo "$APT" "$APTOPTS" "$APTINST" install vim debian-archive-keyring debian-keyring </dev/null >/dev/null 2>&1
 
   # Clone repo
   printf "\n  ${GREEN}*** ${RED}•${GREEN} cloning the repository ${RED}•${GREEN} ***${NC}\n"
@@ -165,13 +165,13 @@ else
 
   # Install additional packages
   printf "\n  ${GREEN}*** ${RED}•${BLUE} installing additional packages ${RED}•${GREEN} ***${NC}\n"
-  sudo $APT $APTOPTS $APTINST update >/dev/null 2>&1
-  sudo $APT $APTOPTS $APTINST update >/dev/null 2>&1
-  sudo $APT $APTOPTS $APTINST update >/dev/null 2>&1
-  sudo $APT $APTOPTS $APTINST install dnsutils net-tools uptimed downtimed mailutils postfix apache2 nginx ntp gnupg cron openssh-server cowsay fortune-mod figlet geany fonts-hack-ttf fonts-hack-otf fonts-hack-web </dev/null >/dev/null 2>&1
-  sudo $APT $APTOPTS $APTINST install php7.3 php7.3-bcmath php7.3-bz2 php7.3-cgi php7.3-cli php7.3-common php7.3-curl php7.3-dba php7.3-dev php7.3-enchant php7.3-fpm php7.3-gd php7.3-gmp php7.3-imap php7.3-interbase php7.3-intl php7.3-json php7.3-ldap php7.3-mbstring php7.3-mysql php7.3-odbc php7.3-opcache php7.3-pgsql php7.3-phpdbg php7.3-pspell php7.3-readline php7.3-recode php7.3-snmp php7.3-soap php7.3-sqlite3 php7.3-sybase php7.3-tidy php7.3-xml php7.3-xmlrpc php7.3-xsl php7.3-zip >/dev/null 2>&1
-  sudo $APT $APTOPTS $APTINST install samba tmux neofetch vim-nox fish zsh libapache2-mod-fcgid libapache2-mod-geoip libapache2-mod-php </dev/null >/dev/null 2>&1
-  sudo $APT $APTOPTS $APTINST install librrds-perl libhttp-daemon-perl libjson-perl libipc-sharelite-perl libfile-which-perl libsnmp-extension-passpersist-perl </dev/null >/dev/null 2>&1
+  sudo "$APT" "$APTOPTS" "$APTINST" update >/dev/null 2>&1
+  sudo "$APT" "$APTOPTS" "$APTINST" update >/dev/null 2>&1
+  sudo "$APT" "$APTOPTS" "$APTINST" update >/dev/null 2>&1
+  sudo "$APT" "$APTOPTS" "$APTINST" install dnsutils net-tools uptimed downtimed mailutils postfix apache2 nginx ntp gnupg cron openssh-server cowsay fortune-mod figlet geany fonts-hack-ttf fonts-hack-otf fonts-hack-web </dev/null >/dev/null 2>&1
+  sudo "$APT" "$APTOPTS" "$APTINST" install php7.3 php7.3-bcmath php7.3-bz2 php7.3-cgi php7.3-cli php7.3-common php7.3-curl php7.3-dba php7.3-dev php7.3-enchant php7.3-fpm php7.3-gd php7.3-gmp php7.3-imap php7.3-interbase php7.3-intl php7.3-json php7.3-ldap php7.3-mbstring php7.3-mysql php7.3-odbc php7.3-opcache php7.3-pgsql php7.3-phpdbg php7.3-pspell php7.3-readline php7.3-recode php7.3-snmp php7.3-soap php7.3-sqlite3 php7.3-sybase php7.3-tidy php7.3-xml php7.3-xmlrpc php7.3-xsl php7.3-zip >/dev/null 2>&1
+  sudo "$APT" "$APTOPTS" "$APTINST" install samba tmux neofetch vim-nox fish zsh libapache2-mod-fcgid libapache2-mod-geoip libapache2-mod-php </dev/null >/dev/null 2>&1
+  sudo "$APT" "$APTOPTS" "$APTINST" install librrds-perl libhttp-daemon-perl libjson-perl libipc-sharelite-perl libfile-which-perl libsnmp-extension-passpersist-perl </dev/null >/dev/null 2>&1
 
   # Remove anacron stuff
   sudo rm -Rf /etc/cron.*/0*
@@ -200,8 +200,8 @@ else
   sudo cp -Rf /tmp/raspbian/{usr,etc,var}* / >/dev/null 2>&1
   sudo cp -Rf /tmp/raspbian/version.txt /etc/casjaysdev/updates/versions/configs.txt >/dev/null 2>&1
   sudo cp -Rf /tmp/raspbian/version.txt /etc/casjaysdev/updates/versions/raspbian.txt >/dev/null 2>&1
-  for bin in $(ls /tmp/raspbian/usr/local/bin); do sudo chmod -Rf 755 /usr/local/bin/$bin 2>/dev/null; done
-  sudo echo "$INSDATE" | sudo tee >/etc/casjaysdev/updates/versions/date.configs.txt
+  for bin in "$(ls /tmp/raspbian/usr/local/bin)"; do sudo chmod -Rf 755 /usr/local/bin/$bin 2>/dev/null; done
+  sudo echo "$INSDATE" | sudo tee /etc/casjaysdev/updates/versions/date.configs.txt &>/dev/null
 
   # Cleanup
   sudo rm -Rf /tmp/raspbian >/dev/null 2>&1
@@ -236,7 +236,7 @@ else
 
   # Add your public key to ssh
   # set GH to your github username
-  if [ ! -z $GH ]; then
+  if [ -n "$GH" ]; then
     printf "${GREEN}\n  *** ${RED}•${PURPLE} Installing $GH.keys into $HOME/.ssh/authorized_keys  ${RED}•${GREEN} ***${NC}\n\n\n"
     mkdir -p ~/.ssh >/dev/null 2>&1
     chmod 700 ~/.ssh >/dev/null 2>&1
@@ -246,15 +246,15 @@ else
   # Make motd
   sudo cp -Rf /etc/casjaysdev/messages/legal.txt /etc/issue
   if [ -n "$(command -v fortune 2>/dev/null)" ] && [ -n "$(command -v cowsay 2>/dev/null)" ]; then
-    printf "\n\n" | sudo tee >/etc/motd
-    fortune | cowsay | sudo tee >>/etc/motd
-    printf "\n" | sudo tee >>/etc/motd
+    printf "\n\n" | sudo tee /etc/motd &>/dev/null
+    fortune | cowsay | sudo tee -a /etc/motd &>/dev/null
+    printf "\n" | sudo tee -a /etc/motd &>/dev/null
   else
-    printf "\n" | sudo tee >>/etc/motd
+    printf "\n" | sudo tee -a /etc/motd &>/dev/null
   fi
   printf "Raspbian version: $(cat /etc/debian_version)  |  Config version: $(cat /etc/casjaysdev/updates/versions/configs.txt)\n" | sudo tee >>/etc/motd
   printf "The configurations where last updated on: $(cat /etc/casjaysdev/updates/versions/date.configs.txt)\n" | sudo tee >>/etc/motd
-  printf "\n\n" | sudo tee >>/etc/motd
+  printf "\n\n" | sudo tee -a /etc/motd &>/dev/null
   sudo cp -Rf /etc/motd /etc/motd.net
   sudo cp -Rf /etc/issue /etc/issue.net
 

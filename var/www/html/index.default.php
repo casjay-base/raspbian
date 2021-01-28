@@ -30,21 +30,23 @@
   <div class="c3">
     Server Admin you can now upload your site to <br>
     <?php echo $_SERVER['DOCUMENT_ROOT']; ?> <br><br><br>
-    <?php echo "Server Name: " . $_SERVER['SERVER_NAME'] . "<BR>"; ?>
-    <?php echo "IP Address: " . $_SERVER['SERVER_ADDR'] . "<BR>"; ?> <br>
-    Linux OsVer: <?php echo shell_exec('cat /etc/redhat-release'); ?> <br>
+    <?php echo 'Server Name: ' . $_SERVER['SERVER_NAME'] . '<BR>'; ?>
+    <?php echo 'IP Address: ' . $_SERVER['SERVER_ADDR'] . '<BR>'; ?> <br>
+    Linux OsVer: <?php echo shell_exec(
+        'cat /etc/os-release | grep NAME= | sed "s#NAME=##g"'
+    ); ?> <br>
     ConfigVer: <?php echo shell_exec(
-  'cat /etc/casjaysdev/updates/versions/configs.txt'
-); ?>
+        'cat /etc/casjaysdev/updates/versions/configs.txt'
+    ); ?>
     <br><br><br>
-    Powered by a Redhat based system<br>
-    <a href="https://redhat.com"> <img border="0" alt="Redhat/CentOS/Fedora/SL Linux"
-        src="/default-icons/powered_by_redhat.jpg"> </a><br><br><br><br>
+    Powered by a Debian based system<br>
+    <a href="https://debian.org"> <img border="0" alt="Debian/Ubuntu"
+        src="/default-icons/powered_by_debian.jpg"> </a><br><br><br><br>
   </div>
 
   <center>
     <!-- Begin Casjays Developments Footer -->
-    <?php include "https://static.casjay.net/casjays-footer.php"; ?>
+    <?php include 'https://static.casjay.net/casjays-footer.php'; ?>
   </center>
   <!-- End Casjays Developments Footer -->
 </body>

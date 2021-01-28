@@ -6,6 +6,7 @@ HOME="${USER_HOME:-${HOME}}"
 PATH="/usr/games:$PATH"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+##@Version     : 012820211212-git
 # @Author      : Jason
 # @Contact     : jason@casjaysdev.com
 # @File        : update-raspbian
@@ -17,7 +18,7 @@ PATH="/usr/games:$PATH"
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 sleepcmd="$(expr $RANDOM \% 300)"
-sleep $sleepcmd
+sleep "$sleepcmd"
 
 sudo update=yes bash -c "$(wget -qO - https://github.com/casjay-base/raspbian/raw/master/install.sh)"
 

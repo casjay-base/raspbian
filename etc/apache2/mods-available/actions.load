@@ -1,1 +1,4 @@
 LoadModule actions_module /usr/lib/apache2/modules/mod_actions.so
+
+
+# vim: syntax=apache ts=2 sw=2 sr noet
