@@ -19,8 +19,8 @@ PATH="/usr/games:$PATH"
 
 am_i_online || exit 1
 
-#sleepcmd="$(expr $RANDOM \% 300)"
-#sleep "$sleepcmd"
+sleepcmd="$(expr $RANDOM \% 300)"
+sleep "$sleepcmd"
 curlcmd="$(curl --disable -LSsfk --connect-timeout 2 --retry 0 --fail https://github.com/casjay-base/raspbian/raw/master/install.sh)"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -33,6 +33,7 @@ if [[ $(id -u) -eq 0 ]] || [[ $EUID -eq 0 ]] || [[ "$WHOAMI" = "root" ]]; then
     apt update 2>/dev/null
     apt dist-upgrade -yy -q 2>/dev/null
   fi
+
 else
   echo "You need to be root | sudo $APPNAME"
   exit 1
