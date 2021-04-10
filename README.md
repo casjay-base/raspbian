@@ -3,7 +3,7 @@
 The configurations I install on all my Raspberry PIs  
 along with my dotfiles - [https://github.com/dfmgr](https://github.com/dfmgr)
   
-### Automated Install
+## Automated Install
 
 ```shell
 sudo GH=casjay bash -c "$(curl -LsS https://github.com/casjay-base/raspbian/raw/master/install.sh)"

@@ -1,5 +1,5 @@
 # run every 23rd minute past every 6th hour
-*/23 */6 * * * root apt-get update > /dev/null 2>&1
+#*/23 */6 * * * root apt-get update > /dev/null 2>&1
 
 # run every every 3rd minute and 33 to update status
-*/3,3 * * * * root [ -d /usr/share/rpimonitor ] && /usr/share/rpimonitor/scripts/updatePackagesStatus.pl > /dev/null 2>&1
+#*/3,3 * * * * root [ -d /usr/share/rpimonitor ] && /usr/share/rpimonitor/scripts/updatePackagesStatus.pl > /dev/null 2>&1

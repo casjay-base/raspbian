@@ -7,7 +7,6 @@ sudo: enabled
 
 matrix:
   include:
-
     - os: linux
       dist: bionic
       language: bash
