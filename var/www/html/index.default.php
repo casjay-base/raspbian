@@ -32,12 +32,8 @@
     <?php echo $_SERVER['DOCUMENT_ROOT']; ?> <br><br><br>
     <?php echo 'Server Name: ' . $_SERVER['SERVER_NAME'] . '<BR>'; ?>
     <?php echo 'IP Address: ' . $_SERVER['SERVER_ADDR'] . '<BR>'; ?> <br>
-    Linux OsVer: <?php echo shell_exec(
-        'cat /etc/os-release | grep '^NAME=' | sed 's|NAME=||g;s|"||g''
-    ); ?> <br>
-    ConfigVer: <?php echo shell_exec(
-        'cat /etc/casjaysdev/updates/versions/configs.txt'
-    ); ?>
+    Linux OsVer: <?php echo shell_exec('cat /etc/os-release | grep '^NAME=' | sed 's#NAME=#"#g''); ?> <br>
+    ConfigVer: <?php echo shell_exec('cat /etc/casjaysdev/updates/versions/configs.txt'); ?>
     <br><br><br>
     Powered by a Debian based system<br>
     <a href="https://debian.org"> <img border="0" alt="Debian/Ubuntu"
