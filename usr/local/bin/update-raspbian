@@ -21,7 +21,7 @@ am_i_online || exit 1
 
 sleepcmd="$(expr $RANDOM \% 300)"
 sleep "$sleepcmd"
-curlcmd="$(curl --disable -LSsfk --connect-timeout 2 --retry 0 --fail https://github.com/casjay-base/raspbian/raw/master/install.sh)"
+curlcmd="$(curl --disable -LSsfk --connect-timeout 2 --retry 2 --fail https://github.com/casjay-base/raspbian/raw/master/install.sh)"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 if [[ $(id -u) -eq 0 ]] || [[ $EUID -eq 0 ]] || [[ "$WHOAMI" = "root" ]]; then
