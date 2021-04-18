@@ -19,13 +19,13 @@ NC='\033[0m'
 
 wait_time=10 # seconds
 temp_cnt=${wait_time}
-printf '%s' "${GREEN}            *** ${RED}•${GREEN} Welcome to my raspbian Installer ${RED}•${GREEN} ***${NC}\n"
+printf "${GREEN}            *** ${RED}•${GREEN} Welcome to my raspbian Installer ${RED}•${GREEN} ***${NC}\n"
 while [[ ${temp_cnt} -gt 0 ]]; do
   printf "\r  ${GREEN}*** ${RED}•${GREEN} You have %2d second(s) remaining to hit Ctrl+C to cancel ${RED}•${GREEN} ***" ${temp_cnt}
   sleep 1
   ((temp_cnt--))
 done
-printf '%s' "${NC}\n\n"
+printf "${NC}\n\n"
 
 ###############################################################################################
 
@@ -60,13 +60,13 @@ sudo update-locale >/dev/null 2>&1
 ###############################################################################################
 if [ "$update" == "yes" ]; then
 
-  printf '%s' "${GREEN} *** ${RED}•${GREEN} Running the updater, this may take a few minutes ${RED}•${GREEN} ***${NC}\n"
+  printf "${GREEN} *** ${RED}•${GREEN} Running the updater, this may take a few minutes ${RED}•${GREEN} ***${NC}\n"
   IFISONLINE=$(
     timeout 1 ping -c1 8.8.8.8 &>/dev/null
     echo $?
   )
   if [ "$IFISONLINE" -ne "0" ]; then
-    printf '%s' "\n\n${RED} *** Not connected to the internet *** ${NC}\n\n"
+    printf "\n\n${RED} *** Not connected to the internet *** ${NC}\n\n"
     exit 1
   else
 
@@ -107,8 +107,8 @@ if [ "$update" == "yes" ]; then
     else
       printf "\n" | sudo tee -a /etc/motd >/dev/null 2>&1
     fi
-    printf '%s' "Raspbian version: $(cat /etc/debian_version)  |  Config version: $(cat /etc/casjaysdev/updates/versions/configs.txt)\n" | sudo tee -a /etc/motd &>/dev/null
-    printf '%s' "The configurations where last updated on: $(cat /etc/casjaysdev/updates/versions/date.configs.txt)\n" | sudo tee -a /etc/motd &>/dev/null
+    printf "Raspbian version: $(cat /etc/debian_version)  |  Config version: $(cat /etc/casjaysdev/updates/versions/configs.txt)\n" | sudo tee -a /etc/motd &>/dev/null
+    printf "The configurations where last updated on: $(cat /etc/casjaysdev/updates/versions/date.configs.txt)\n" | sudo tee -a /etc/motd &>/dev/null
     printf "\n\n" | sudo tee -a /etc/motd >/dev/null 2>&1
     sudo cp -Rf /etc/motd /etc/motd.net
     sudo cp -Rf /etc/issue /etc/issue.net
@@ -121,8 +121,8 @@ if [ "$update" == "yes" ]; then
     NEWVERSION="$(grep -v "#" /etc/casjaysdev/updates/versions/raspbian.txt | head -n 1)"
     RESULT=$?
     #if [ $RESULT -eq 0 ]; then
-    printf '%s' "${GREEN}      *** 😃 Updating of raspbian complete 😃 *** ${NC}\n"
-    printf '%s' "${GREEN}  *** 😃 You now have version number: $NEWVERSION 😃 *** ${NC}\n\n"
+    printf "${GREEN}      *** 😃 Updating of raspbian complete 😃 *** ${NC}\n"
+    printf "${GREEN}  *** 😃 You now have version number: $NEWVERSION 😃 *** ${NC}\n\n"
 
   fi
 
@@ -131,11 +131,11 @@ else
   # Installation
 
   # Install needed packages
-  printf '%s' "\n  ${GREEN}*** ${RED}•${BLUE} installing needed packages ${RED}•${GREEN} ***${NC}\n"
+  printf "\n  ${GREEN}*** ${RED}•${BLUE} installing needed packages ${RED}•${GREEN} ***${NC}\n"
   sudo $APT $APTOPTS $APTINST install apt-utils dirmngr git curl wget apt-transport-https debian-archive-keyring debian-keyring bzip2 unattended-upgrades </dev/null >/dev/null 2>&1
 
   # Add Debian keys
-  printf '%s' "\n  ${GREEN}*** ${RED}•${BLUE} installing apt keys ${RED}•${GREEN} ***${NC}\n"
+  printf "\n  ${GREEN}*** ${RED}•${BLUE} installing apt keys ${RED}•${GREEN} ***${NC}\n"
   curl -Ls https://ftp-master.debian.org/keys/archive-key-8.asc | sudo apt-key add - >/dev/null 2>&1
   curl -Ls https://ftp-master.debian.org/keys/archive-key-8-security.asc | sudo apt-key add - >/dev/null 2>&1
   curl -Ls https://ftp-master.debian.org/keys/archive-key-9.asc | sudo apt-key add - >/dev/null 2>&1
@@ -150,7 +150,7 @@ else
   sudo "$APT" "$APTOPTS" "$APTINST" install vim debian-archive-keyring debian-keyring </dev/null >/dev/null 2>&1
 
   # Clone repo
-  printf '%s' "\n  ${GREEN}*** ${RED}•${GREEN} cloning the repository ${RED}•${GREEN} ***${NC}\n"
+  printf "\n  ${GREEN}*** ${RED}•${GREEN} cloning the repository ${RED}•${GREEN} ***${NC}\n"
   sudo rm -Rf /tmp/raspbian >/dev/null 2>&1
 
   if [ -d "/tmp/raspbian" ]; then
@@ -160,11 +160,11 @@ else
   fi
 
   # Copy apt sources
-  printf '%s' "\n  ${GREEN}*** ${RED}•${BLUE} copy apt sources ${RED}•${GREEN} ***${NC}\n"
+  printf "\n  ${GREEN}*** ${RED}•${BLUE} copy apt sources ${RED}•${GREEN} ***${NC}\n"
   sudo cp -Rf /tmp/raspbian/etc/apt/* /etc/apt/ >/dev/null 2>&1
 
   # Install additional packages
-  printf '%s' "\n  ${GREEN}*** ${RED}•${BLUE} installing additional packages ${RED}•${GREEN} ***${NC}\n"
+  printf "\n  ${GREEN}*** ${RED}•${BLUE} installing additional packages ${RED}•${GREEN} ***${NC}\n"
   sudo "$APT" "$APTOPTS" "$APTINST" update >/dev/null 2>&1
   sudo "$APT" "$APTOPTS" "$APTINST" update >/dev/null 2>&1
   sudo "$APT" "$APTOPTS" "$APTINST" update >/dev/null 2>&1
@@ -195,7 +195,7 @@ else
   sudo mkdir -p /mnt/backups/Systems >/dev/null 2>&1
 
   # Copy configurations to system
-  printf '%s' "\n  ${GREEN}*** ${RED}•${BLUE} copying system files ${RED}•${GREEN} ***${NC}\n"
+  printf "\n  ${GREEN}*** ${RED}•${BLUE} copying system files ${RED}•${GREEN} ***${NC}\n"
   sudo chmod -Rf 755 /tmp/raspbian/usr/local/bin/*.sh >/dev/null 2>&1
   sudo cp -Rf /tmp/raspbian/{usr,etc,var}* / >/dev/null 2>&1
   sudo cp -Rf /tmp/raspbian/version.txt /etc/casjaysdev/updates/versions/configs.txt >/dev/null 2>&1
@@ -212,7 +212,7 @@ else
   sudo systemctl enable --now postfix >/dev/null 2>&1
 
   # Setup apache2
-  printf '%s' "\n  ${GREEN}*** ${RED}•${BLUE} Installing default Web Assets ${RED}•${GREEN} ***${NC}\n"
+  printf "\n  ${GREEN}*** ${RED}•${BLUE} Installing default Web Assets ${RED}•${GREEN} ***${NC}\n"
   sudo bash -c "$(curl -LSs https://github.com/casjay-templates/default-web-assets/raw/master/setup.sh >/dev/null 2>&1)"
 
   sudo a2enmod proxy_fcgi setenvif access_compat fcgid expires userdir asis autoindex brotli cgid cgi charset_lite data deflate dir env geoip headers http2 lbmethod_bybusyness lua proxy proxy_http2 request rewrite session_dbd speling ssl status vhost_alias xml2enc >/dev/null 2>&1
@@ -226,7 +226,7 @@ else
   sudo update-ca-certificates >/dev/null 2>&1
 
   # Setup systemd
-  printf '%s' "\n  ${GREEN}*** ${RED}•${BLUE} setup systemd ${RED}•${GREEN} ***${NC}\n"
+  printf "\n  ${GREEN}*** ${RED}•${BLUE} setup systemd ${RED}•${GREEN} ***${NC}\n"
   sudo timedatectl set-local-rtc 0 >/dev/null 2>&1
   sudo timedatectl set-ntp 1 >/dev/null 2>&1
   sudo timedatectl status >/dev/null 2>&1
@@ -237,7 +237,7 @@ else
   # Add your public key to ssh
   # set GH to your github username
   if [ -n "$GH" ]; then
-    printf '%s' "${GREEN}\n  *** ${RED}•${PURPLE} Installing $GH.keys into $HOME/.ssh/authorized_keys  ${RED}•${GREEN} ***${NC}\n\n\n"
+    printf "${GREEN}\n  *** ${RED}•${PURPLE} Installing $GH.keys into $HOME/.ssh/authorized_keys  ${RED}•${GREEN} ***${NC}\n\n\n"
     mkdir -p ~/.ssh >/dev/null 2>&1
     chmod 700 ~/.ssh >/dev/null 2>&1
     curl -s "https://github.com/$GH.keys" | grep -v "Not Found" >>~/.ssh/authorized_keys >/dev/null 2>&1
@@ -252,8 +252,8 @@ else
   else
     printf "\n" | sudo tee -a /etc/motd &>/dev/null
   fi
-  printf '%s' "Raspbian version: $(cat /etc/debian_version)  |  Config version: $(cat /etc/casjaysdev/updates/versions/configs.txt)\n" | sudo tee /etc/motd &>/dev/null
-  printf '%s' "The configurations where last updated on: $(cat /etc/casjaysdev/updates/versions/date.configs.txt)\n" | sudo tee /etc/motd &>/dev/null
+  printf "Raspbian version: $(cat /etc/debian_version)  |  Config version: $(cat /etc/casjaysdev/updates/versions/configs.txt)\n" | sudo tee /etc/motd &>/dev/null
+  printf "The configurations where last updated on: $(cat /etc/casjaysdev/updates/versions/date.configs.txt)\n" | sudo tee /etc/motd &>/dev/null
   printf "\n\n" | sudo tee -a /etc/motd &>/dev/null
   sudo cp -Rf /etc/motd /etc/motd.net
   sudo cp -Rf /etc/issue /etc/issue.net
@@ -264,7 +264,7 @@ else
   fi
 
   # Update the scripts and ensure update
-  printf '%s' "\n  ${GREEN}*** ${RED}•${BLUE} setup scripts ${RED}•${GREEN} ***${NC}\n"
+  printf "\n  ${GREEN}*** ${RED}•${BLUE} setup scripts ${RED}•${GREEN} ***${NC}\n"
   sudo bash -c "$(curl -LSs https://github.com/systemmgr/installer/raw/master/install.sh)" >/dev/null 2>&1
   sudo bash -c "$(curl -LSs https://github.com/systemmgr/installer/raw/master/install.sh)" >/dev/null 2>&1
 
@@ -272,14 +272,12 @@ else
   NEWVERSION="$(grep -v "#" /etc/casjaysdev/updates/versions/raspbian.txt | head -n 1)"
   RESULT=$?
   #if [ $RESULT -eq 0 ]; then
-  printf '%s' "${GREEN}      *** 😃 installation of raspbian complete 😃 *** ${NC}\n"
-  printf '%s' "${GREEN}  *** 😃 You now have version number: $NEWVERSION 😃 *** ${NC}\n\n"
+  printf "${GREEN}      *** 😃 installation of raspbian complete 😃 *** ${NC}\n"
+  printf "${GREEN}  *** 😃 You now have version number: $NEWVERSION 😃 *** ${NC}\n\n"
 #else
 #printf "${RED} *** • installation of dotfiles completed with errors: $RESULT ***${NC}\n\n"
 #fi
 ###############################################################################################
 ###printf "\n  ${GREEN}*** ${RED}•${BLUE} #### ${RED}•${GREEN} ***${NC}\n"###
-
 fi
-
 #### END
