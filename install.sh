@@ -99,7 +99,7 @@ if [ "$update" == "yes" ]; then
     sudo rm -Rf /tmp/raspbian >/dev/null 2>&1
 
     # Make motd
-    sudo cp -Rf /etc/casjaysdev/messages/legal.txt /etc/issue
+    sudo cp -Rf /etc/casjaysdev/messages/legal/000.txt /etc/issue
     if [ -n "$(command -v fortune 2>/dev/null)" ] && [ -n "$(command -v cowsay 2>/dev/null)" ]; then
       printf "\n\n" | sudo tee /etc/motd >/dev/null 2>&1
       fortune | cowsay | sudo tee -a /etc/motd >/dev/null 2>&1
