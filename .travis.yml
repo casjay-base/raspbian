@@ -24,6 +24,6 @@ notifications:
     on_success: never
 
 install:
-  - sudo bash -c "$(curl -LSs https://github.com/casjay-dotfiles/scripts/raw/master/install.sh)" && sudo pkmgr init
-  - sudo GH=casjay bash -c "$(curl -LsS https://github.com/casjay-base/raspbian/raw/master/install.sh)"
-  - sudo update=yes bash -c "$(curl -LsS https://github.com/casjay-base/raspbian/raw/master/install.sh)"
+  - sudo bash -c "$(curl -LSs https://github.com/casjay-dotfiles/scripts/raw/main/install.sh)" && sudo pkmgr init
+  - sudo GH=casjay bash -c "$(curl -LsS https://github.com/casjay-base/raspbian/raw/main/install.sh)"
+  - sudo update=yes bash -c "$(curl -LsS https://github.com/casjay-base/raspbian/raw/main/install.sh)"

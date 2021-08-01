@@ -71,7 +71,7 @@ if [ "$update" == "yes" ]; then
   else
 
     # Default Web Assets
-    sudo bash -c "$(curl -LSs https://github.com/casjay-templates/default-web-assets/raw/master/setup.sh)" >/dev/null 2>&1
+    sudo bash -c "$(curl -LSs https://github.com/casjay-templates/default-web-assets/raw/main/setup.sh)" >/dev/null 2>&1
 
     # Ensure version directory exists
     mkdir -p /etc/casjaysdev/updates/versions >/dev/null 2>&1
@@ -114,8 +114,8 @@ if [ "$update" == "yes" ]; then
     sudo cp -Rf /etc/issue /etc/issue.net
 
     # Update the scripts and ensure update
-    sudo bash -c "$(curl -LSs https://github.com/systemmgr/installer/raw/master/install.sh)" >/dev/null 2>&1
-    sudo bash -c "$(curl -LSs https://github.com/systemmgr/installer/raw/master/install.sh)" >/dev/null 2>&1
+    sudo bash -c "$(curl -LSs https://github.com/systemmgr/installer/raw/main/install.sh)" >/dev/null 2>&1
+    sudo bash -c "$(curl -LSs https://github.com/systemmgr/installer/raw/main/install.sh)" >/dev/null 2>&1
 
     # Done
     NEWVERSION="$(grep -v "#" /etc/casjaysdev/updates/versions/raspbian.txt | head -n 1)"
@@ -213,7 +213,7 @@ else
 
   # Setup apache2
   printf "\n  ${GREEN}*** ${RED}•${BLUE} Installing default Web Assets ${RED}•${GREEN} ***${NC}\n"
-  sudo bash -c "$(curl -LSs https://github.com/casjay-templates/default-web-assets/raw/master/setup.sh >/dev/null 2>&1)"
+  sudo bash -c "$(curl -LSs https://github.com/casjay-templates/default-web-assets/raw/main/setup.sh >/dev/null 2>&1)"
 
   sudo a2enmod proxy_fcgi setenvif access_compat fcgid expires userdir asis autoindex brotli cgid cgi charset_lite data deflate dir env geoip headers http2 lbmethod_bybusyness lua proxy proxy_http2 request rewrite session_dbd speling ssl status vhost_alias xml2enc >/dev/null 2>&1
   sudo a2ensite default-ssl.conf >/dev/null 2>&1
@@ -265,8 +265,8 @@ else
 
   # Update the scripts and ensure update
   printf "\n  ${GREEN}*** ${RED}•${BLUE} setup scripts ${RED}•${GREEN} ***${NC}\n"
-  sudo bash -c "$(curl -LSs https://github.com/systemmgr/installer/raw/master/install.sh)" >/dev/null 2>&1
-  sudo bash -c "$(curl -LSs https://github.com/systemmgr/installer/raw/master/install.sh)" >/dev/null 2>&1
+  sudo bash -c "$(curl -LSs https://github.com/systemmgr/installer/raw/main/install.sh)" >/dev/null 2>&1
+  sudo bash -c "$(curl -LSs https://github.com/systemmgr/installer/raw/main/install.sh)" >/dev/null 2>&1
 
   # Print installed version
   NEWVERSION="$(grep -v "#" /etc/casjaysdev/updates/versions/raspbian.txt | head -n 1)"

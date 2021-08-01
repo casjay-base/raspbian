@@ -6,13 +6,13 @@ along with my dotfiles - [https://github.com/dfmgr](https://github.com/dfmgr)
 ## Automated Install
 
 ```shell
-sudo GH=casjay bash -c "$(curl -LsS https://github.com/casjay-base/raspbian/raw/master/install.sh)"
+sudo GH=casjay bash -c "$(curl -LsS https://github.com/casjay-base/raspbian/raw/main/install.sh)"
 ```
 
 ### Automated update
 
 ```shell
-sudo update=yes bash -c "$(curl -LsS https://github.com/casjay-base/raspbian/raw/master/install.sh)"
+sudo update=yes bash -c "$(curl -LsS https://github.com/casjay-base/raspbian/raw/main/install.sh)"
 ```
 
 [![Patreon](https://img.shields.io/badge/patreon-donate-orange.svg)](https://www.patreon.com/casjay)
