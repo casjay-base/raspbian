@@ -8,7 +8,7 @@ PATH="/usr/games:$PATH"
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ##@Version     : 012820211718-git
 # @Author      : Jason
-# @Contact     : jason@casjaysdev.com
+# @Contact     : jason@casjaysdev.pro
 # @File        : update-raspbian
 # @Created     : Mon, Dec 31, 2019, 00:00 EST
 # @License     : WTFPL
