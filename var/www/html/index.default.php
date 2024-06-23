@@ -29,15 +29,17 @@
 
   <div class="c3">
     Server Admin you can now upload your site to <br>
-    <?php echo $_SERVER['DOCUMENT_ROOT']; ?> <br><br><br>
-    <?php echo 'Server Name: ' . $_SERVER['SERVER_NAME'] . '<BR>'; ?>
-    <?php echo 'IP Address: ' . $_SERVER['SERVER_ADDR'] . '<BR>'; ?> <br>
+    <?php echo $_SERVER['DOCUMENT_ROOT']; ?>
+    <br><br><br>
+    <?php echo "System Hostname: " , gethostname() . "<br />"; ?>
+    <?php echo 'Server Name: ' . $_SERVER['SERVER_NAME'] . '<br />'; ?>
+    <?php echo 'IP Address: ' . $_SERVER['SERVER_ADDR'] . '<br />'; ?>
+    <br>
     Linux OsVer: <?php echo shell_exec('grep "^NAME=" /etc/os-release | sed "s#NAME=##g;s#\"##g"'); ?> <br>
     ConfigVer: <?php echo shell_exec('cat /etc/casjaysdev/updates/versions/configs.txt'); ?>
     <br><br><br>
     Powered by a Debian based system<br>
-    <a href="https://debian.org"> <img border="0" alt="Debian/Ubuntu"
-        src="/default-icons/powered_by_debian.jpg"> </a><br><br><br><br>
+    <a href="https://debian.org"> <img border="0" alt="Debian/Ubuntu" src="/default-icons/powered_by_debian.jpg"> </a><br><br><br><br>
   </div>
 
   <center>
