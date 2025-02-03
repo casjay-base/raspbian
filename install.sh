@@ -219,7 +219,7 @@ else
   sudo a2ensite default-ssl.conf >/dev/null 2>&1
   sudo a2enconf php7.3-fpm >/dev/null 2>&1
   sudo mkdir -p /var/www/html/.well-known >/dev/null 2>&1
-  sudo chown -Rf www-data:www-data /var/www /usr/share/httpd >/dev/null 2>&1
+  sudo chown -Rf www-data:www-data /var/www /usr/local/share/httpd >/dev/null 2>&1
 
   # Install My CA cert
   sudo cp -Rf /etc/ssl/CA/CasjaysDev/certs/ca.crt /usr/local/share/ca-certificates/CasjaysDev.crt >/dev/null 2>&1
